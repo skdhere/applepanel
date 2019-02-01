@@ -1,8 +1,5 @@
 <?php
-	include('access1.php');
-	include('include/connection.php');
-	include('include/query-helper.php');
-	include('include/pagination-helper.php');
+	include('config/autoload.php');
 
 	$feature_name 	= 'Farmer';
 	$home_name    	= "Home";
@@ -19,7 +16,7 @@
         <?php	
 	}
 	
-	$ca_id	= $_SESSION['ca_id'];
+	$ca_id	= $_SESSION['login_id'];
 
 	$sql_org = "select * from tbl_change_agents where id='".$ca_id."'";
 	$res_org = mysqli_query($db_con,$sql_org) or die(mysqli_error($db_con));
@@ -101,7 +98,7 @@
 
     </head>
     
-    <body class="<?php echo $theme_name; ?>" data-theme="<?php echo $theme_name; ?>">
+    <body class="<?php echo THEME_NAME; ?>" data-theme="<?php echo THEME_NAME; ?>">
         <?php
 		/*include Bootstrap model pop up for error display*/
 		modelPopUp();

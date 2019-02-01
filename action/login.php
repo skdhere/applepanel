@@ -6,11 +6,11 @@ class login extends Database {
 
 	function check_login(){
 
-		$where['email'] =  $_POST['emailId'];
-		$where['password'] =  md5($_POST['pwfield']);
+		$where['mu_email'] =  $_POST['emailId'];
+		$where['mu_password'] =  md5($_POST['pwfield']);
 
 		$db          = new Database();
-		$user_detail = $this->select('tbl_mgmt_users',$where);
+		$user_detail = $this->select('tbl_mgnt_users',$where);
 		if($user_detail){
 
 			$resp['success'] = true;
@@ -19,6 +19,10 @@ class login extends Database {
 
 			$_SESSION['panel_user'] = array();		
 			$_SESSION['sqyard_user'] = $user_detail;
+			$_SESSION['userType'] = $user_detail['mu_mr_role_id'];
+			$_SESSION['login_id'] = $user_detail['mu_id'];
+			$_SESSION['mu_org_id'] = $user_detail['mu_org_id'];
+
 			if(isset($_SESSION['request_url'])){
 				$resp['request_url'] = $_SESSION['request_url'];
 			}	

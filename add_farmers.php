@@ -1,7 +1,6 @@
 <?php 
-	include('access1.php'); 
-	include('include/connection.php');
-	include('include/query-helper.php');
+
+	include('config/autoload.php');
 	
     // echo $fm_caid        = $_SESSION['ca_id'];
     
@@ -22,7 +21,7 @@
         /* This function used to call all header data like css files and links */
     	?>
     </head>
-    <body class="<?php echo $theme_name; ?>" data-theme="<?php echo $theme_name; ?>">
+    <body class="<?php echo THEME_NAME; ?>" data-theme="<?php echo THEME_NAME; ?>">
         <?php
 		/*include Bootstrap model pop up for error display*/
 		modelPopUp();
@@ -44,8 +43,8 @@
                             <h3>
                             	Add Farmer  
                             </h3>
-                            <button type="button" class="btn-info_1" style= "float:right" onClick="location.href='<?php echo $BaseFolder; ?>view_farmers.php';" >
-                                <i class="icon-arrow-left"></i>&nbsp Back
+                            <button type="button" class="btn-info_1" style= "float:right" onClick="location.href='<?php echo BASE_FOLDER; ?>view_farmers.php';" >
+                                <i class="icon-arrow-left"></i>&nbsp; Back
                             </button>
                         </div>
                         <div class="box-content nopadding">
@@ -63,9 +62,9 @@
                                         <select id="fm_org_id" name="fm_org_id" class="select2-me input-xlarge" >
                                             <?php
                                             // Query For getting the list of the all FPOs
-                                            if($_SESSION['org_id'] != '1')
+                                            if($_SESSION['mu_org_id'] != '1')
                                             {
-                                                $res_get_list_of_fpos = getRecord('tbl_organization', array('id'=>$_SESSION['org_id']));
+                                                $res_get_list_of_fpos = getRecord('tbl_organization', array('id'=>$_SESSION['mu_org_id']));
                                             }
                                             else
                                             {
@@ -113,21 +112,55 @@
                                 
                                 <div class="control-group">
                                     <label for="text" class="control-label" style="margin-top:10px">
-                                    	Father's / Spouse's Name <span style="color:#F00">*</span>
+                                    	State <span style="color:#F00">*</span>
                                     </label>
                                     <div class="controls">
-                                    	<input type="text" id="txt_father_name" name="txt_father_name" class="input-xlarge" data-rule-required="true" placeholder="Father's / Spouse's Name">
+                                        <select id="fm_state" name="fm_state" class="select2-me input-xlarge" >
+                                            <option value="">Select State</option>
+                                            <?php
+                                            $states = $location->get_states();
+                                            foreach($states as $state){
+                                                echo '<option value="'.$state['id'].'">'.ucfirst($state['st_name']).'</option>';
+                                            }
+                                            ?>
+                                        </select>
                                     </div>
-                                </div>	<!-- Father's / Spouse's Name -->
+                                </div>	<!-- Father's / fm_state -->
                                 
                                 <div class="control-group">
                                     <label for="text" class="control-label" style="margin-top:10px">
-                                    	Mother's Name <span style="color:#F00">*</span>
+                                        District <span style="color:#F00">*</span>
                                     </label>
                                     <div class="controls">
-                                    	<input type="text" id="txt_mother_name" name="txt_mother_name" class="input-xlarge v_name" data-rule-required="true" placeholder="Mother Name" >
+                                        <select id="fm_district" name="fm_district" class="select2-me input-xlarge" >
+                                            <option value="">Select District</option>
+                                            
+                                        </select>
                                     </div>
-                                </div>	<!-- Mother's Name -->
+                                </div>  <!-- Father's / fm_state -->
+
+                                <div class="control-group">
+                                    <label for="text" class="control-label" style="margin-top:10px">
+                                        Taluka <span style="color:#F00">*</span>
+                                    </label>
+                                    <div class="controls">
+                                        <select id="fm_taluka" name="fm_taluka" class="select2-me input-xlarge" >
+                                            <option value="">Select Taluka</option>
+                                            
+                                        </select>
+                                    </div>
+                                </div>  <!-- Father's / fm_state -->
+
+                                <div class="control-group">
+                                    <label for="text" class="control-label" style="margin-top:10px">
+                                        Village <span style="color:#F00">*</span>
+                                    </label>
+                                    <div class="controls">
+                                        <select id="fm_village" name="fm_village" class="select2-me input-xlarge" >
+                                            <option value="">Select Village</option>
+                                        </select>
+                                    </div>
+                                </div>  <!-- Father's / fm_state -->
                                 
                                 <div class="control-group">
                                 	<label for="tasktitel" class="control-label">
@@ -173,14 +206,26 @@
                                 
                                 <div class="control-group">
                                     <label for="numberfield" class="control-label">
-                                    	Aadhaar No. <span style="color:#F00">*</span><br>[12 Digits]
+                                    	Email. <span style="color:#F00">*</span><br>
                                     </label>
                                     <div class="controls">
-                                    	<input type="text" placeholder="Aadhaar no" name="fm_aadhar" id="fm_aadhar" data-rule-number="true" maxlength="12" data-rule-required="true" onBlur="Aadhaar(this.value);"  data-rule-minlength="12"  data-rule-maxlength="12" class="input-xlarge v_number">
+                                    	<input type="email" placeholder="Email" name="fm_email" id="fm_email" data-rule-number="true" data-rule-required="true"   class="input-xlarge v_number">
                                     	<label id="comp_1" style="color:#FF0000;width:200px;margin-left:100px;"></label>
                                     </div>
                                 </div> <!-- Aadhar Number -->
                                 
+
+                               
+
+                                 <div class="control-group">
+                                    <label for="tasktitel" class="control-label">
+                                         How long you have been residing in this area <span style="color:#F00">*</span>
+                                    </label>
+                                    <div class="controls">
+                                        <input type="text" placeholder="residing in this area" name="txt_farm_experience" id="txt_farm_experience" class="v_number input-xlarge" data-rule-number="true" data-rule-required="true" data-rule-maxlength="2">
+                                    </div>
+                                </div>  <!-- Experience In Farming -->
+
                                 <div class="control-group">
                                 	<label for="tasktitel" class="control-label">
                                     	Experience In Farming <span style="color:#F00">*</span>
@@ -213,57 +258,7 @@
 
                                 </div>
 
-                                <div class="control-group">
-                                	<label for="tasktitel" class="control-label">Do you required a loan? <span style="color:#F00">*</span></label>
-                                    <div class="controls">
-                                    	<select id="f1_required_loan" name="f1_required_loan" class="select2-me input-xlarge" onChange="getDisplayDiv(this.value, 'div_required_loan_display')">
-                                            <option value="" disabled selected>Select here</option>
-                                            <option value="yes">Yes</option>
-                                            <option value="no">No</option>
-                                        </select>
-                                    </div>
-                                </div>	<!-- Do you required a loan [DDL] -->
                                 
-                                <!-- START : Display Div -->
-                                <div id="div_required_loan_display" style="display:none;">
-                                    
-                                    <div class="control-group">
-                                        <label for="tasktitel" class="control-label">How much amount of loan you required?<span style="color:#F00">*</span></label>
-                                        <div class="controls">
-                                            <input type="text" placeholder="How much amount of loan you required" onKeyPress="return numsonly(event);" name="f1_required_loan_amt" id="f1_required_loan_amt" class="v_number input-xlarge" data-rule-required="true" data-rule-maxlength="12">
-                                        </div>
-                                    </div>	<!-- How much amount [If yes] -->
-                                    
-                                    <div class="control-group">
-                                        <label for="tasktitel" class="control-label">Loan Purpose <span style="color:#F00">*</span></label>
-                                        <div class="controls">
-                                            <select id="f1_loan_purpose" name="f1_loan_purpose" class="select2-me input-xlarge" onChange="calTotal();">
-                                                <option value="" disabled selected>Select here</option>
-                                                <option point="5" value="Whole Crop Process">Whole Crop Process</option>
-                                                <option point="5" value="Buy Machinery">Buy Machinery</option>
-                                                <option point="5" value="Buy Seeds">Buy Seeds</option>
-                                                <option point="5" value="Buy Tools">Buy Tools</option>
-                                                <option point="5" value="Buy Irrigation">Buy Irrigation</option>
-                                                <option point="5" value="Others">Others</option>
-                                            </select>
-                                        </div>
-                                    </div>	<!-- Loan Purpose -->
-                                    
-                                    <div class="control-group">
-                                        <label for="tasktitel" class="control-label">Crop Cycle for loan required <span style="color:#F00">*</span></label>
-                                        <div class="controls">
-                                            <select id="f1_crop_cycle" name="f1_crop_cycle" class="select2-me input-xlarge">
-                                                <option value="" disabled selected>Select here</option>
-                                                <option value="Kharif">Kharif</option>
-                                                <option value="Rabi">Rabi</option>
-                                                <option value="Summer">Summer</option>
-                                                <option value="All Year Round">All Year Round</option>
-                                            </select>
-                                        </div>
-                                    </div>	<!-- Crop Cycle for loan required -->
-                                
-                                </div>
-                                <!-- END : Display Div -->
                                 
                                 <div class="control-group">
                                 	<label for="tasktitel" class="control-label">
@@ -278,207 +273,7 @@
                                     </div>
                                 </div>	<!-- Married Or Not -->
                                 
-                                <div class="control-group">
-                                	<label for="tasktitel" class="control-label">
-                                    	Residence Status <span style="color:#F00">*</span>
-                                    </label>
-                                    <div class="controls">
-                                    	<select id="ddl_residence_status" name="ddl_residence_status" class="select2-me input-large">
-                                        	<option value="" disabled selected>Select Residence Status</option>
-                                            <option point="2" value="Rented">Rented</option>
-                                            <option point="10" value="Owned">Owned</option>
-                                            <option point="6" value="Ancestral">Ancestral</option>
-                                        </select>
-                                    </div>
-                                </div>	<!-- Residence Status -->
                                 
-                                <div id="div_ifRental" style="display:none;">
-                                    <div class="control-group">
-                                        <label for="tasktitel" class="control-label">Rent</label>
-                                        <div class="controls">
-                                        	<input type="text" id="txt_rent" name="txt_rent" placeholder="Rent" data-rule-number="true" class="input-large" data-rule-maxlength="5" maxlength="5" size="5">
-                                        </div>
-                                    </div>	<!-- Rent [Only If Rental will select] -->
-								</div>	<!-- Rent [Only If Rental will select] -->
-                                
-                                <!-- START : Address Details -->
-                                <div class="control-group">
-                                    <div>
-                                        <div style="float:left">
-                                            <h3 style="margin:0px;">Address Details</h3>
-                                        </div>
-                                        <div style="margin-left:640px;">
-                                            <small>
-                                            <a id="btnsame" class="btn btn-warning btn-sm">
-                                                Same as Permanent
-                                            </a>
-                                            </small>
-                                        </div>
-                                    </div>
-                                </div>	<!-- Address Details -->
-                                
-                                <div class="control-group span6" style="clear:both;">
-                                    <label for="tasktitel">
-                                    	<h4>Permanent Address</h4>
-                                    </label>
-                                </div>	<!-- Permanent Address -->
-                                
-                                <div class="control-group span6">
-                                    <label for="tasktitel">
-                                    	<h4>Current Address</h4>
-                                    </label>
-                                </div>	<!-- Current Address -->
-                                
-                                <div class="control-group span6" style="clear:both;">
-                                	<label for="tasktitel" class="control-label">House No. / Address<span style="color:#F00">*</span></label>
-                                    <div class="controls">
-                                    	<input type="text" id="txt_p_house_no" name="txt_p_house_no" placeholder="House Number" class="input-large" data-rule-required="true" maxlength="150" size="150" />
-                                    </div>
-                                </div>	<!-- P House No. -->
-                                
-                                <div class="control-group span6">
-                                	<label for="tasktitel" class="control-label">House No.  / Address<span style="color:#F00">*</span></label>
-                                    <div class="controls">
-                                    	<input type="text" id="txt_c_house_no" name="txt_c_house_no" placeholder="House Number" class="input-large" data-rule-required="true" maxlength="150" size="150" />
-                                    </div>
-                                </div>	<!-- C House No. -->
-                                
-                                <div class="control-group span6" style="clear:both;">
-                                	<label for="tasktitel" class="control-label">Street Name <span style="color:#F00">*</span></label>
-                                    <div class="controls">
-                                    	<input type="text" id="txt_p_street_name" name="txt_p_street_name" placeholder="Street Name" class="input-large" data-rule-required="true" />
-                                    </div>
-                                </div>	<!-- P Street Name -->
-                                
-                                <div class="control-group span6">
-                                	<label for="tasktitel" class="control-label">Street Name <span style="color:#F00">*</span></label>
-                                    <div class="controls">
-                                    	<input type="text" id="txt_c_street_name" name="txt_c_street_name" placeholder="Street Name" class="input-large" data-rule-required="true" />
-                                    </div>
-                                </div>	<!-- C Street Name -->
-                                
-                                <div class="control-group span6" style="clear:both;">
-                                	<label for="tasktitel" class="control-label">Area Name <span style="color:#F00">*</span></label>
-                                    <div class="controls">
-                                    	<input type="text" id="txt_p_area_name" name="txt_p_area_name" placeholder="Area Name" class="input-large" data-rule-required="true" />
-                                    </div>
-                                </div>	<!-- P Area Name -->
-                                
-                                <div class="control-group span6">
-                                	<label for="tasktitel" class="control-label">Area Name <span style="color:#F00">*</span></label>
-                                    <div class="controls">
-                                    	<input type="text" id="txt_c_area_name" name="txt_c_area_name" placeholder="Area Name" class="input-large" data-rule-required="true" />
-                                    </div>
-                                </div>	<!-- C Area Name -->
-                                
-                                <div class="control-group span6" style="clear:both;">
-                                	<label for="tasktitel" class="control-label">State <span style="color:#F00">*</span></label>
-                                    <div class="controls">
-                                    	<select id="ddl_p_state" name="ddl_p_state" onChange="getDist('p', this.value, 'ddl_p_dist', 'ddl_p_tal', 'ddl_p_village', 'div_p_dist', 'div_p_tal', 'div_p_village');" class="select2-me input-large" >
-                                        	<option value="" disabled selected>Select State</option>
-                                        	<?php
-                                            $res_get_state	= lookup_value('tbl_state',array(),array(),array(),array(),array());
-											
-											if($res_get_state)
-											{
-												while ($row = mysqli_fetch_array($res_get_state) ) 
-												{
-													echo '<option value="'.$row['id'].'">'.strtoupper($row['st_name']).'</option>';
-												}
-											}
-											?>
-                                        </select>
-                                    </div>
-                                </div>	<!-- P State -->
-                                
-                                <div class="control-group span6">
-                                	<label for="tasktitel" class="control-label">State <span style="color:#F00">*</span></label>
-                                    <div class="controls">
-                                    	<select id="ddl_c_state" name="ddl_c_state"  onChange="getDist('c', this.value, 'ddl_c_dist', 'ddl_c_tal', 'ddl_c_village', 'div_c_dist', 'div_c_tal', 'div_c_village');" class="select2-me input-large" >
-                                        	<option value="" disabled selected>Select State</option>
-                                        	<?php
-                                            $res_get_state	= lookup_value('tbl_state',array(),array(),array(),array(),array());
-											
-											if($res_get_state)
-											{
-												while ($row = mysqli_fetch_array($res_get_state) ) 
-												{
-													echo '<option value="'.$row['id'].'">'.strtoupper($row['st_name']).'</option>';
-												}
-											}
-											?>
-                                        </select>
-                                    </div>
-                                </div>	<!-- C State -->
-                                
-                                <div class="control-group span6" style="clear:both;">
-                                	<label for="tasktitel" class="control-label">District <span style="color:#F00">*</span></label>
-                                    <div class="controls" id="div_p_dist">
-                                    	<select id="ddl_p_dist" name="ddl_p_dist" class="select2-me input-large" >
-                                        	<option value="" disabled selected>Select District</option>
-                                        </select>
-                                    </div>
-                                </div>	<!-- P District -->
-                                
-                                <div class="control-group span6">
-                                	<label for="tasktitel" class="control-label">District <span style="color:#F00">*</span></label>
-                                    <div class="controls" id="div_c_dist">
-                                    	<select id="ddl_c_dist" name="ddl_c_dist" class="select2-me input-large" >
-                                        	<option value="" disabled selected>Select District</option>
-                                        </select>
-                                    </div>
-                                </div>	<!-- C District -->
-                                
-                                <div class="control-group span6" style="clear:both;">
-                                	<label for="tasktitel" class="control-label">Taluka <span style="color:#F00">*</span></label>
-                                    <div class="controls" id="div_p_tal">
-                                    	<select id="ddl_p_tal" name="ddl_p_tal" class="select2-me input-large" >
-                                        	<option value="" disabled selected>Select Taluka</option>
-                                        </select>
-                                    </div>
-                                </div>	<!-- P Taluka -->
-                                
-                                <div class="control-group span6">
-                                	<label for="tasktitel" class="control-label">Taluka <span style="color:#F00">*</span></label>
-                                    <div class="controls" id="div_c_tal">
-                                    	<select id="ddl_c_tal" name="ddl_c_tal" class="select2-me input-large" >
-                                        	<option value="" disabled selected>Select Taluka</option>
-                                        </select>
-                                    </div>
-                                </div>	<!-- C Taluka -->
-                                
-                                <div class="control-group span6" style="clear:both;">
-                                	<label for="tasktitel" class="control-label">Village Name <span style="color:#F00">*</span></label>
-                                    <div class="controls" id="div_p_village">
-                                    	<select id="ddl_p_village" name="ddl_p_village" class="select2-me input-large" >
-                                        	<option value="" disabled selected>Select Village</option>
-                                        </select>
-                                    </div>
-                                </div>	<!-- P Village Name -->
-                            
-                                <div class="control-group span6">
-                                	<label for="tasktitel" class="control-label">Village Name <span style="color:#F00">*</span></label>
-                                    <div class="controls" id="div_c_village">
-                                    	<select id="ddl_c_village" name="ddl_c_village" class="select2-me input-large" >
-                                        	<option value="" disabled selected>Select Village</option>
-                                        </select>
-                                    </div>
-                                </div>	<!-- C Village Name -->
-                                
-                                <div class="control-group span6" style="clear:both;">
-                                	<label for="tasktitel" class="control-label">Pin-Code <span style="color:#F00">*</span><br>[6 Digits]</label>
-                                    <div class="controls">
-                                    	<input type="text" id="txt_p_pincode" name="txt_p_pincode" placeholder="Pin-Code" class="input-large" data-rule-required="true" data-rule-number="true" minlength="6" maxlength="6" size="6" />
-                                    </div>
-                                </div>	<!-- P Pin-Code -->
-                                
-                                <div class="control-group span6">
-                                	<label for="tasktitel" class="control-label">Pin-Code <span style="color:#F00">*</span><br>[6 Digits]</label>
-                                    <div class="controls">
-                                    	<input type="text" id="txt_c_pincode" name="txt_c_pincode" placeholder="Pin-Code" class="input-large" data-rule-required="true" data-rule-number="true" minlength="6" maxlength="6" size="6" />
-                                    </div>
-                                </div>	<!-- C Pin-Code -->
-								<!-- END : Address Details -->
                                 
                                 <div class="form-actions" style="clear:both;">
                                     <button id="submit" name="Submit" type="submit" class="btn btn-primary" >Submit</button>

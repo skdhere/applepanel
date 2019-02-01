@@ -1,124 +1,5 @@
-<?php 
-	//error_reporting(1);
-	//ini_set('display_errors','on');
-	ini_set('memory_limit','-1');
-	date_default_timezone_set('Asia/Kolkata');
-	$fm_caid 	= "";
-	$date 		= new DateTime(null, new DateTimeZone('Asia/Kolkata'));
-	$datetime 	= $date->format('Y-m-d H:i:s');
-	
-	$theme_name = "theme-green";
-	
-	$json 	= file_get_contents('php://input');
-	$obj 	= json_decode($json);
-	
-	if ($_SERVER['HTTP_HOST'] == "localhost" || preg_match("/^192\.168\.0.\d+$/",$_SERVER['HTTP_HOST'])) 
-	{
-        $dbserver = "localhost"; // Database Server
-        $dbuname = "root"; // Database Username
-        $dbpass = ""; // Database Password
-        $dbname = "thefarmcompany"; // Database Name
-		if ($_SERVER['HTTP_HOST'] == "localhost")
-		{
-			$BaseFolder = "http://localhost/sq/";	
-		}
-		else
-		{
-			$BaseFolder = "http://192.168.0.13/sqyardpanel/";
-		}
-	}
-	else
-	{
-        $dbserver = "localhost"; // Database Server
-        $dbuname = "root"; // Database Username
-        $dbpass = ""; // Database Password
-        $dbname = "sqyard_2017"; // Database Name
-        $BaseFolder = "http://127.0.0.1/sq/";	 // BaseFolder Path have to write here	
-	}
-	
-	$db_con = mysqli_connect("localhost",$dbuname, $dbpass) or die("Can not connect to Database");
-	if($db_con)
-	{
-		mysqli_select_db($db_con,$dbname) or die(mysqli_error($db_con));
-		$_SESSION['backend_user'] 	= "";
-		$logged_uid 			= 0;
-		define('BASE_FOLDER',$BaseFolder);
-	}
-	
-	
-	
-	if(isset($_REQUEST['fm_id']) && $_REQUEST['fm_id']!=  "")
-	{
-		include('query-helper.php');
-	  	$check_exist = checkExist('tbl_farmers',array('fm_id'=>$_REQUEST['fm_id']),array(),array(),array());
-			           
-			if(!$check_exist)
-			{ ?>
-
-		    <script type="text/javascript">
-	alert("Farmer Id not Found...!");
-	window.open('view_farmers.php?pag=farmers','_self');
-	</script>
-			<?php }
-	}
-	
-	if((isset($obj->getLogin)) == '1' && (isset($obj->getLogin)))
-	{
-		 
-		$response_array	= array();
-		$username		= $obj->username;
-		$password		= $obj->password;
-		
-		// Query for checking user is exist or not
-		$sql_isexist	= " SELECT * FROM `tbl_change_agents` WHERE `emailId`='".$username."' ";
-		$res_isexist	= mysqli_query($db_con, $sql_isexist) or die(mysqli_error($db_con));
-		$num_isexist	= mysqli_num_rows($res_isexist);
-		
-		if($num_isexist != 0)
-		{
-			$row_isexist	= mysqli_fetch_array($res_isexist);
-			$reg_name       = $row_isexist['fname'];
-			$reg_type       = $row_isexist['userType'];
-			$reg_status		= $row_isexist['reg_status'];
-			$reg_caid 		= $row_isexist['id'];
-			$org_id			= $row_isexist['org_id'];
-			
-			if($reg_status == 1)
-			{
-				$tbl_pssword	= $row_isexist['password'];
-						
-				if(strcmp($password, $tbl_pssword) === 0)
-				{
-					session_start();
-					$_SESSION['sqyard_user'] = $reg_name;
-					$_SESSION['userType']    = $reg_type;
-					$_SESSION['ca_id']       = $reg_caid;
-					$_SESSION['fm_caid']     = $reg_caid;
-					$_SESSION['org_id']      = $org_id;
-
-					
-					$response_array	= array("Success"=>"Success", "resp"=>"home.php");
-				}
-				else
-				{
-					$response_array	= array("Success"=>"fail", "resp"=>"Password not matched");	
-				} 
-			}
-			else
-			{
-				$response_array	= array("Success"=>"Success", "resp"=>"checkmail.php");			
-			}
-		}	
-		else
-		{
-			$response_array	= array("Success"=>"fail", "resp"=>"User not exist");	
-		}
-		echo json_encode($response_array);	
-	}
-	
-
-	
-	function generateRandomStringMobileVerification($length)
+<?php
+    function generateRandomStringMobileVerification($length)
 	{
 		$characters = '123456789';
 		$randomString = '';
@@ -184,6 +65,7 @@
     
         <!-- Bootstrap -->
         <link rel="stylesheet" href="css/bootstrap.min.css">
+        <!-- <link rel="stylesheet" href="css/bootstrap.min.new.css"> -->
         <!-- Bootstrap responsive -->
         <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
         <!-- jQuery UI -->
@@ -363,4 +245,65 @@
 			</div> <!--breadcrumb-->
 		<?php
 	}
-?>
+
+function getRecord($table ,$where, $not_where_array=array(), $and_like_array=array(), $or_like_array=array(),$order_by = array())
+{
+    global $db_con;
+    if($table=="")
+    {
+        quit('Table name can not be blank');
+    }
+    $sql = " SELECT * FROM ". $table ;
+    $fields = array();
+    $values = array();
+    
+    
+    $sql .=" WHERE 1 = 1 ";
+    
+    //==Check Where Condtions=====//
+    if(!empty($where))
+    {
+        foreach($where as $field1 => $value1 )
+        {   
+            $sql  .= " AND ".$field1 ."='".$value1."' ";
+        }
+    }
+    
+    //==Check Not Where Condtions=====//
+    if(!empty($not_where_array))
+    {
+        foreach($not_where_array as $field2 => $value2)
+        {   
+            $sql  .= " AND ".$field2 ."!='".$value2."' ";
+        }
+    }
+    if(!empty($order_by))
+    {
+        foreach($order_by as $col => $order)
+        {   
+            $sql  .= " ORDER BY  ".$col ." ".$order." ";
+        }
+    }
+    $result         = mysqli_query($db_con,$sql) or die(mysqli_error($db_con));
+    $num            = mysqli_num_rows($result);
+    if($num > 0)
+    {
+        
+        return $result;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+
+function query($sql)
+{
+    global $db_con;
+    $result = mysqli_query($db_con,$sql) or die(mysqli_error($db_con));
+    return $result;
+}
+
+    ?>
+

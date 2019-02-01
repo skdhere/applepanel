@@ -2,12 +2,13 @@
 	
 	Class Database{
 		
-		protected $db_host = DB_HOST;
-		protected $db_name = DB_NAME;
-		protected $db_user = DB_USERNAME;
-		protected $db_pass = DB_PASSWORD;
-		protected $db_con  = false;
+		public $db_host = DB_HOST;
+		public $db_name = DB_NAME;
+		public $db_user = DB_USERNAME;
+		public $db_pass = DB_PASSWORD;
+		public $db_con  = false;
 		
+
 		public function __construct()
         {
             $this->db_con = mysqli_connect($this->db_host,$this->db_user, $this->db_pass) or die("Can not connect to Database"); 
@@ -16,6 +17,10 @@
 				mysqli_select_db($this->db_con,DB_NAME) or die(mysqli_error($this->db_con));
 			}   
         }
+
+        function get_connection(){
+			return $this->db_con;
+		}
 
         public function insert_record(){
         	echo 1;
@@ -154,5 +159,7 @@
 			}
 		}
 
+
+		
 	}
 ?>

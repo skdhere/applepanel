@@ -1,14 +1,15 @@
-<?php session_start();
+<?php 
+
 if(isset($_SESSION['sqyard_user']))
 {
+	   
 		$user 		= $_SESSION['sqyard_user'];
-		$userType	= $_SESSION['mgmt_type'];
-		$ca_id		= $_SESSION['ca_id'];	 
+		$userType	= $_SESSION['userType'];
+		$login_id	= $_SESSION['login_id'];	 
 }
 else
 {
-print_r($_SESSION['sqyard_user']);die;
-	die;
+
 ?>
 <script type="text/javascript">
 alert("Please login with your username and password.");

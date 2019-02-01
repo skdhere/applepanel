@@ -1,24 +1,25 @@
 <?php
 
-if($_SESSION['userType']=="changeagent")
+if($_SESSION['userType']=="2")
 {
 ?>
 <ul class='main-nav'>
-				<li>
-					<a href="home.php">
-						<i class="icon-home"></i>
-						<span>Dashboard</span>
-					</a>
-				</li>
-                <li <?php if(isset($_REQUEST['pag'])&&($_REQUEST['pag'])=='farmers'){?> class="active" <?php } ?>>
-					<a href="view_farmers.php?pag=farmers">
-						<i class="icon-th-large"></i>
-						<span>Farmers</span>
-					</a>
-				</li> </ul>
+	<li>
+		<a href="home.php">
+			<i class="icon-home"></i>
+			<span>Dashboard</span>
+		</a>
+	</li>
+    <li <?php if(isset($_REQUEST['pag'])&&($_REQUEST['pag'])=='farmers'){?> class="active" <?php } ?>>
+		<a href="view_farmers.php?pag=farmers">
+			<i class="icon-th-large"></i>
+			<span>Farmers</span>
+		</a>
+	</li>
+</ul>
 <?php
 }
-elseif($_SESSION['userType']=="Admin")
+elseif($_SESSION['userType']=="1")
 {
 	?>
 		<ul class='main-nav'>
@@ -131,7 +132,7 @@ elseif($_SESSION['userType']=="Data Entry")
 <div class="user">
     <div class="dropdown asdf">
         <a href="#" class='dropdown-toggle' data-toggle="dropdown">
-            <?php echo $_SESSION['sqyard_user']; ?> <i class="icon-user"></i> <span class="caret"></span>
+            <?php echo $_SESSION['sqyard_user']['mu_name']; ?> <i class="icon-user"></i> <span class="caret"></span>
         </a>
         <ul class="dropdown-menu pull-right">
             <li>

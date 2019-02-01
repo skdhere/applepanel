@@ -14,7 +14,7 @@ if(isset($_SESSION['sqyard_user']))
 
 
 	<!-- Bootstrap -->
-	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootstrap.min.new.css">
 	<!-- Bootstrap responsive -->
 	<link rel="stylesheet" href="css/bootstrap-responsive.min.css">
 	<!-- Theme CSS -->
