@@ -214,10 +214,7 @@
                                     </div>
                                 </div> <!-- Aadhar Number -->
                                 
-
-                               
-
-                                 <div class="control-group">
+                                <div class="control-group">
                                     <label for="tasktitel" class="control-label">
                                          How long you have been residing in this area <span style="color:#F00">*</span>
                                     </label>
@@ -234,7 +231,6 @@
                                     	<input type="text" placeholder="Experience In Farming" name="txt_farm_experience" id="txt_farm_experience" class="v_number input-xlarge" data-rule-number="true" data-rule-required="true" data-rule-maxlength="2">
                                     </div>
                                 </div>	<!-- Experience In Farming -->
-                                
                                 
                                 <div class="control-group">
                                     <label for="tasktitel" class="control-label">Do you have any other occupation? <span style="color:#F00">*</span></label>
@@ -257,8 +253,6 @@
                                     </div>  <!-- mention the amount earned annually -->
 
                                 </div>
-
-                                
                                 
                                 <div class="control-group">
                                 	<label for="tasktitel" class="control-label">
@@ -272,8 +266,6 @@
                                         </select>
                                     </div>
                                 </div>	<!-- Married Or Not -->
-                                
-                                
                                 
                                 <div class="form-actions" style="clear:both;">
                                     <button id="submit" name="Submit" type="submit" class="btn btn-primary" >Submit</button>
@@ -667,45 +659,45 @@
 			function getXMLHTTP()	//fuction to return the xml http object 
 			{ 
 			
-					var xmlhttp=false;	
-			
-					try{
-			
-						xmlhttp=new XMLHttpRequest();
-			
-					}
-			
-					catch(e)	{		
-			
-						try{			
-			
-							xmlhttp= new ActiveXObject("Microsoft.XMLHTTP");
-			
-						}
-			
-						catch(e){
-			
-							try{
-			
-							xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-			
-							}
-			
-							catch(e1){
-			
-								xmlhttp=false;
-			
-							}
-			
-						}
-			
-					}
-			
-						
-			
-					return xmlhttp;
-			
+				var xmlhttp=false;	
+		
+				try{
+		
+					xmlhttp=new XMLHttpRequest();
+		
 				}
+		
+				catch(e)	{		
+		
+					try{			
+		
+						xmlhttp= new ActiveXObject("Microsoft.XMLHTTP");
+		
+					}
+		
+					catch(e){
+		
+						try{
+		
+						xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+		
+						}
+		
+						catch(e1){
+		
+							xmlhttp=false;
+		
+						}
+		
+					}
+		
+				}
+		
+					
+		
+				return xmlhttp;
+		
+			}
 			
 			function Aadhaar(comp1) 
 			{		

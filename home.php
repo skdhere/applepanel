@@ -1,8 +1,11 @@
 <?php 
+
     include('config/autoload.php'); 
     include('access1.php'); 
-    
+
     include('include/query-helper.php');
+    // echo 'This home page';
+    // exit();
     
     $feature_name   = 'Dashboard';
     $home_name      = "Home";

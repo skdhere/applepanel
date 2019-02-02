@@ -13,11 +13,11 @@ define('DATE', date('Y-m-d'));
 $json 	= file_get_contents('php://input');
 $obj 	= json_decode($json);
 
-require($_SERVER['DOCUMENT_ROOT'].'applepanel/config/constant.php');
-require($_SERVER['DOCUMENT_ROOT'].'applepanel/classes/database.php');
-require($_SERVER['DOCUMENT_ROOT'].'applepanel/classes/location.php');
-require($_SERVER['DOCUMENT_ROOT'].'applepanel/classes/Farmer_info.php');
-require($_SERVER['DOCUMENT_ROOT'].'applepanel/helper/helper_functions.php');
+require($_SERVER['DOCUMENT_ROOT'].'/applepanel/config/constant.php');
+require($_SERVER['DOCUMENT_ROOT'].'/applepanel/classes/database.php');
+require($_SERVER['DOCUMENT_ROOT'].'/applepanel/classes/location.php');
+require($_SERVER['DOCUMENT_ROOT'].'/applepanel/classes/Farmer_info.php');
+require($_SERVER['DOCUMENT_ROOT'].'/applepanel/helper/helper_functions.php');
 
 
 $database = new Database();

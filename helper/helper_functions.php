@@ -10,8 +10,6 @@
 		return $randomString;
 	}
 	
-	
-	
 	function loader()
 	{
 		?>
@@ -246,64 +244,62 @@
 		<?php
 	}
 
-function getRecord($table ,$where, $not_where_array=array(), $and_like_array=array(), $or_like_array=array(),$order_by = array())
-{
-    global $db_con;
-    if($table=="")
+    function getRecord($table ,$where, $not_where_array=array(), $and_like_array=array(), $or_like_array=array(),$order_by = array())
     {
-        quit('Table name can not be blank');
-    }
-    $sql = " SELECT * FROM ". $table ;
-    $fields = array();
-    $values = array();
-    
-    
-    $sql .=" WHERE 1 = 1 ";
-    
-    //==Check Where Condtions=====//
-    if(!empty($where))
-    {
-        foreach($where as $field1 => $value1 )
-        {   
-            $sql  .= " AND ".$field1 ."='".$value1."' ";
+        global $db_con;
+        if($table=="")
+        {
+            quit('Table name can not be blank');
         }
-    }
-    
-    //==Check Not Where Condtions=====//
-    if(!empty($not_where_array))
-    {
-        foreach($not_where_array as $field2 => $value2)
-        {   
-            $sql  .= " AND ".$field2 ."!='".$value2."' ";
-        }
-    }
-    if(!empty($order_by))
-    {
-        foreach($order_by as $col => $order)
-        {   
-            $sql  .= " ORDER BY  ".$col ." ".$order." ";
-        }
-    }
-    $result         = mysqli_query($db_con,$sql) or die(mysqli_error($db_con));
-    $num            = mysqli_num_rows($result);
-    if($num > 0)
-    {
+        $sql = " SELECT * FROM ". $table ;
+        $fields = array();
+        $values = array();
         
+        
+        $sql .=" WHERE 1 = 1 ";
+        
+        //==Check Where Condtions=====//
+        if(!empty($where))
+        {
+            foreach($where as $field1 => $value1 )
+            {   
+                $sql  .= " AND ".$field1 ."='".$value1."' ";
+            }
+        }
+        
+        //==Check Not Where Condtions=====//
+        if(!empty($not_where_array))
+        {
+            foreach($not_where_array as $field2 => $value2)
+            {   
+                $sql  .= " AND ".$field2 ."!='".$value2."' ";
+            }
+        }
+        if(!empty($order_by))
+        {
+            foreach($order_by as $col => $order)
+            {   
+                $sql  .= " ORDER BY  ".$col ." ".$order." ";
+            }
+        }
+        $result         = mysqli_query($db_con,$sql) or die(mysqli_error($db_con));
+        $num            = mysqli_num_rows($result);
+        if($num > 0)
+        {
+            
+            return $result;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    function query($sql)
+    {
+        global $db_con;
+        $result = mysqli_query($db_con,$sql) or die(mysqli_error($db_con));
         return $result;
     }
-    else
-    {
-        return false;
-    }
-}
-
-
-function query($sql)
-{
-    global $db_con;
-    $result = mysqli_query($db_con,$sql) or die(mysqli_error($db_con));
-    return $result;
-}
-
-    ?>
+?>
 

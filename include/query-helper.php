@@ -239,7 +239,7 @@
 		}
 	}
 	
-	function getRecord($table ,$where, $not_where_array=array(), $and_like_array=array(), $or_like_array=array())
+	function getRecord1($table ,$where, $not_where_array=array(), $and_like_array=array(), $or_like_array=array())
 	{
 		global $db_con;
 		if($table=="")
@@ -283,7 +283,7 @@
 			return false;
 		}
 	}
-	
+
 	function lookup_value($table,$col_array,$where,$not_where_array=array(),$and_like_array=array(),$or_like_array=array())
 	{
 		global $db_con;
