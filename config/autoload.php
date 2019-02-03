@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 ini_set('memory_limit','-1');
 date_default_timezone_set('Asia/Kolkata');
@@ -23,5 +25,6 @@ require($_SERVER['DOCUMENT_ROOT'].'/applepanel/helper/helper_functions.php');
 $database = new Database();
 $db_con = $database->get_connection();
 
+global $db_con;
 $location = new Location();
 ?>

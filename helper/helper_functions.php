@@ -301,5 +301,488 @@
         $result = mysqli_query($db_con,$sql) or die(mysqli_error($db_con));
         return $result;
     }
+
+    function dataPagination($query,$per_page,$start,$cur_page)
+    {
+        global $db_con;
+        
+        $start_offset1      = 1;    // Start Point
+        $start_offset2      = 1;    // End of the Limit
+        $previous_btn       = true;
+        $next_btn           = true;
+        $first_btn          = true;
+        $last_btn           = true;
+        $msg                = "";
+        $result_pag_num     = mysqli_query($db_con,$query) or die(mysqli_error($db_con));;
+        $record_count       = mysqli_num_rows($result_pag_num); // Total Count of the Record
+        $no_of_paginations  = ceil($record_count / $per_page);  // Getting the total number of pages
+        
+        /*Edit Count Query*/
+        /* ---------------Calculating the starting and endign values for the loop----------------------------------- */
+        
+        if($cur_page >= 7) 
+        {
+            $start_loop = $cur_page - 3;
+            if ($no_of_paginations > $cur_page + 3)
+            {
+                $end_loop = $cur_page + 3;          
+            }
+            elseif($cur_page <= $no_of_paginations && $cur_page > $no_of_paginations - 6) 
+            {
+                $start_loop = $no_of_paginations - 6;
+                $end_loop = $no_of_paginations;
+            }
+            else
+            {
+                $end_loop = $no_of_paginations;
+            }
+        } 
+        else 
+        {       
+            $start_loop = 1;
+            if ($no_of_paginations > 7)
+            {
+                $end_loop = 7;          
+            }
+            else
+            {
+                $end_loop = $no_of_paginations;         
+            }
+        }
+        /* ----------------------------------------------------------------------------------------------------------- */
+        $msg .= "<br><div class='pagination'><ul style='margin-right:20px'>";
+        // FOR ENABLING THE FIRST BUTTON
+        if ($first_btn && $cur_page > 1) 
+        {
+            $msg .= "<li p='1' class='active' style='background: none repeat scroll 0 0 #eee;color: #333;font-family: Open Sans,sans-serif;font-size: 13px !important;font-weight:normal;border:none'>First</li>";
+        } 
+        else if ($first_btn) 
+        {
+            $msg .= "<li p='1' class='inactive'  style='background: none repeat scroll 0 0 #eee;color: #333;font-family: Open Sans,sans-serif;font-size: 13px !important;font-weight:normal;border:none'>First</li>";
+        }
+        // FOR ENABLING THE PREVIOUS BUTTON
+        if ($previous_btn && $cur_page > 1) 
+        {
+            $pre = $cur_page - 1;
+            $msg .= "<li p='$pre' class='active' style='background: none repeat scroll 0 0 #eee;color: #333;font-family: Open Sans,sans-serif;font-size: 13px !important;font-weight:normal;border:none'>Previous</li>";
+        } 
+        else if ($previous_btn) 
+        {
+            $msg .= "<li class='inactive' style='background: none repeat scroll 0 0 #eee;color: #333;font-family: Open Sans,sans-serif;font-size: 13px !important;font-weight:normal;border:none'>Previous</li>";
+        }
+        
+        for ($i = $start_loop; $i <= $end_loop; $i++) 
+        {
+            if ($cur_page == $i)
+                $msg .= "<li p='$i' value='$i' name='li_current' style='background: none repeat scroll 0 0 #F8A31F;color: #ffffff;font-family: Open Sans,sans-serif;font-size: 13px !important;font-weight:normal;border:none' class='active selected'>{$i}</li>";
+            else
+                $msg .= "<li p='$i' class='active' style='background: none repeat scroll 0 0 #eee;color: #333;font-family: Open Sans,sans-serif;font-size: 13px !important;font-weight:normal;border:none'>{$i}</li>";
+        }
+        
+        // TO ENABLE THE NEXT BUTTON
+        if ($next_btn && $cur_page < $no_of_paginations) 
+        {
+            $nex = $cur_page + 1;
+            $msg .= "<li p='$nex' class='active' style='background: none repeat scroll 0 0 #eee;color: #333;font-family: Open Sans,sans-serif;font-size: 13px !important;font-weight:normal;border:none'>Next</li>";
+        } 
+        else if ($next_btn) 
+        {
+            $msg .= "<li class='inactive' style='background: none repeat scroll 0 0 #eee;color: #333;font-family: Open Sans,sans-serif;font-size: 13px !important;font-weight:normal;border:none'>Next</li>";
+        }
+        // TO ENABLE THE END BUTTON
+        if ($last_btn && $cur_page < $no_of_paginations) 
+        {
+            $msg .= "<li p='$no_of_paginations' class='active' style='background: none repeat scroll 0 0 #eee;color: #333;font-family: Open Sans,sans-serif;font-size: 13px !important;font-weight:normal;border:none'>Last</li>";
+        } 
+        else if ($last_btn) 
+        {
+            $msg .= "<li p='$no_of_paginations' class='inactive' style='background: none repeat scroll 0 0 #eee;color: #333;font-family: Open Sans,sans-serif;font-size: 13px !important;font-weight:normal;border:none'>Last</li>";
+        }
+        $goto = "<input type='text' class='goto' size='1' style='margin-top:-1px;margin-left:60px;width:25px !important;'/>";
+        $goto .= "<input type='button' id='go_btn' class='go_button' value='Go'/>";
+        
+        $start_offset1 = $cur_page * $per_page + 1 - $per_page;
+        if($end_loop == $cur_page)
+        {
+            $start_offset2 = $record_count;
+        }
+        else
+        {
+            $start_offset2 = $cur_page * $per_page;
+        }
+        
+        // $total_string [Is the actual string i.e. 1 to 20 of 4000 entries only, there is no any pagination include in it]
+        $total_string = "</ul>";
+        $total_string .= "<div class='total' a='$no_of_paginations' style='color:#333333;font-family: Open Sans,sans-serif;font-size: 13px !important;'>Showing <b>".$start_offset1."</b> to <b>$start_offset2</b> of <b>$record_count</b> entries</div>";
+        
+        // $msg [Is the actual string that contain the pagination part first-prev-1-2-3-4-5-6-7-next-last only]
+        
+        $msg1 = $msg . $total_string ;  // Content for pagination
+        if(!$record_count=='0')
+        {
+            return $msg1;
+        }
+        else
+        {
+            return 0;   
+        }
+    }
+
+    
+    // Query For Insert
+    function insert($table, $variables = array())
+    {
+        //Make sure the array isn't empty
+        global $db_con;
+        if( empty( $variables ) )
+        {
+            return false;
+            exit;
+        }
+        
+        $sql = "INSERT INTO ". $table;
+        $fields = array();
+        $values = array();
+        foreach( $variables as $field => $value )
+        {
+            $fields[] = $field;
+            $values[] = "'".$value."'";
+        }
+        $fields = ' (' . implode(', ', $fields) . ')';
+        $values = '('. implode(', ', $values) .')';
+        
+        $sql .= $fields .' VALUES '. $values;
+    
+        $result     = mysqli_query($db_con,$sql) or die(mysqli_error($db_con));
+        
+        if($result)
+        {
+            return mysqli_insert_id($db_con);
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    // Query For Update
+    function update($table, $variables = array(), $where,$not_where_array=array(),$and_like_array=array(),$or_like_array=array())
+    {
+        //Make sure the array isn't empty
+        global $db_con;
+        if( empty( $variables ) )
+        {
+            return false;
+            exit;
+        }
+        
+        $sql = "UPDATE ". $table .' SET ';
+        $fields = array();
+        $values = array();
+        
+        foreach($variables as $field => $value )
+        {   
+            $sql  .= $field ."='".$value."' ,";
+        }
+        $sql   =chop($sql,',');
+        
+        $sql .=" WHERE 1 = 1 ";
+        //==Check Where Condtions=====//
+        if(!empty($where))
+        {
+            foreach($where as $field1 => $value1 )
+            {   
+                $sql  .= " AND ".$field1 ."='".$value1."' ";
+            }
+        }
+    
+        //==Check Not Where Condtions=====//
+        if(!empty($not_where_array))
+        {
+            foreach($not_where_array as $field2 => $value2 )
+            {   
+                $sql  .= " AND ".$field2 ."!='".$value2."' ";
+            }
+        }
+        
+        $result         = mysqli_query($db_con,$sql) or die(mysqli_error($db_con));
+        
+        if($result)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    function delete($table, $where=array(),$not_where_array=array(),$in_array=array())
+    {
+        global $db_con;
+
+        $sql = " DELETE FROM ". $table ." WHERE 1 = 1 ";
+
+        //==Check Where Condtions=====//
+        if(!empty($where))
+        {
+            foreach($where as $field1 => $value1 )
+            {   
+                $sql  .= " AND ".$field1 ."='".$value1."' ";
+            }
+        }
+
+        //==Check Not Where Condtions=====//
+        if(!empty($not_where_array))
+        {
+            foreach($not_where_array as $field2 => $value2 )
+            {   
+                $sql  .= " AND ".$field2 ."!='".$value2."' ";
+            }
+        }
+        
+        // in_array format array(id=>array(1,2,3))
+        if(!empty($in_array))
+        {
+            foreach($in_array as $field3 => $value3 )
+            {   
+                $sql  .= " AND ".$field3 ." IN (".implode(',',$value3).") ";
+            }
+        }
+
+        $result = mysqli_query($db_con,$sql) or die(mysqli_error($db_con));
+        
+        if($result)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    // For Compile
+    function quit($msg,$Success="")
+    {
+        if($Success ==1)
+        {
+            $Success="Success";
+        }
+        else
+        {
+            $Success="fail";
+        }
+        echo json_encode(array("Success"=>$Success,"resp"=>$msg));
+        exit();
+    }
+    
+    // Select Query For getting the Record count
+    function isExist($table ,$where, $not_where_array=array(), $and_like_array=array(), $or_like_array=array())
+    {
+        global $db_con;
+        if($table=="")
+        {
+            quit('Table name can not be blank');
+        }
+        $sql = " SELECT * FROM ". $table ;
+        $fields = array();
+        $values = array();
+        
+        
+        $sql .=" WHERE 1 = 1 ";
+        
+        //==Check Where Condtions=====//
+        if(!empty($where))
+        {
+            foreach($where as $field1 => $value1 )
+            {   
+                $sql  .= " AND ".$field1 ."='".$value1."' ";
+            }
+        }
+        
+        //==Check Not Where Condtions=====//
+        if(!empty($not_where_array))
+        {
+            foreach($not_where_array as $field2 => $value2)
+            {   
+                $sql  .= " AND ".$field2 ."!='".$value2."' ";
+            }
+        }
+        
+        $result         = mysqli_query($db_con,$sql) or die(mysqli_error($db_con));
+        $num            = mysqli_num_rows($result);
+        if($num > 0)
+        {
+            
+            return $num;
+        }
+        else
+        {
+            //return false;
+            return $num;
+        }
+    }
+    
+    function checkExist($table ,$where, $not_where_array=array(), $and_like_array=array(), $or_like_array=array())
+    {
+        global $db_con;
+        if($table=="")
+        {
+            quit('Table name can not be blank');
+        }
+        $sql = " SELECT * FROM ". $table ;
+        $fields = array();
+        $values = array();
+        
+        
+        $sql .=" WHERE 1 = 1 ";
+        
+        //==Check Where Condtions=====//
+        if(!empty($where))
+        {
+            foreach($where as $field1 => $value1 )
+            {   
+                $sql  .= " AND ".$field1 ."='".$value1."' ";
+            }
+        }
+        
+        //==Check Not Where Condtions=====//
+        if(!empty($not_where_array))
+        {
+            foreach($not_where_array as $field2 => $value2)
+            {   
+                $sql  .= " AND ".$field2 ."!='".$value2."' ";
+            }
+        }
+        
+        $result         = mysqli_query($db_con,$sql) or die(mysqli_error($db_con));
+        $num            = mysqli_num_rows($result);
+        if($num > 0)
+        {
+            $row = mysqli_fetch_array($result);
+            return $row;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    function getRecord1($table ,$where, $not_where_array=array(), $and_like_array=array(), $or_like_array=array())
+    {
+        global $db_con;
+        if($table=="")
+        {
+            quit('Table name can not be blank');
+        }
+        $sql = " SELECT * FROM ". $table ;
+        $fields = array();
+        $values = array();
+        
+        
+        $sql .=" WHERE 1 = 1 ";
+        
+        //==Check Where Condtions=====//
+        if(!empty($where))
+        {
+            foreach($where as $field1 => $value1 )
+            {   
+                $sql  .= " AND ".$field1 ."='".$value1."' ";
+            }
+        }
+        
+        //==Check Not Where Condtions=====//
+        if(!empty($not_where_array))
+        {
+            foreach($not_where_array as $field2 => $value2)
+            {   
+                $sql  .= " AND ".$field2 ."!='".$value2."' ";
+            }
+        }
+        
+        $result         = mysqli_query($db_con,$sql) or die(mysqli_error($db_con));
+        $num            = mysqli_num_rows($result);
+        if($num > 0)
+        {
+            
+            return $result;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    function lookup_value($table,$col_array,$where,$not_where_array=array(),$and_like_array=array(),$or_like_array=array())
+    {
+        global $db_con;
+        $colums  =implode(',',$col_array);
+        $col     =1;
+        if($colums=="")
+        {
+            $colums =' * ';
+            $col    ="";
+        }
+        $sql =" SELECT ".$colums." FROM ".$table." ";
+        $sql .=" WHERE 1 = 1 ";
+        //==Check Where Condtions=====//
+        if(!empty($where))
+        {
+            foreach($where as $field1 => $value1 )
+            {   
+                $sql  .= " AND ".$field1 ."='".$value1."' ";
+            }
+        }
+        
+        //==Check Not Equal Condtions=====//
+        if(!empty($not_where_array))
+        {
+            foreach($not_where_array as $field2 => $value2 )
+            {   
+                $sql  .= " AND ".$field2 ."!='".$value2."' ";
+            }
+        }
+        
+        //==Check AND Like Condtions=====//
+        if(!empty($and_like_array))
+        {
+            foreach($like_array as $field3 => $value3 )
+            {   
+                $sql  .= " AND ".$field3 ." like '".$value3."' ";
+            }
+        }
+        //==Check AND Like Condtions=====//
+        if(!empty($or_like_array))
+        {
+            foreach($or_like_array as $field4 => $value4 )
+            {   
+                $sql  .= " AND ".$field4 ." like '".$value4."' ";
+            }
+        }
+        /*return $sql;
+        exit();*/
+        $result    = mysqli_query($db_con,$sql) or die(mysqli_error($db_con));
+        $nums      = mysqli_num_rows($result);
+        if($nums !=0)
+        {
+            
+            if($col=="")
+            {
+                // return $sql;
+                return $result;
+            }
+            else
+            {
+                $row = mysqli_fetch_array($result);
+                return $row[$colums];
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 ?>
 

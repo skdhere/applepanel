@@ -3,7 +3,7 @@
     include('config/autoload.php'); 
     include('access1.php'); 
 
-    include('include/query-helper.php');
+    // include('include/query-helper.php');
     // echo 'This home page';
     // exit();
     

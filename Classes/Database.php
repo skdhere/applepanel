@@ -30,8 +30,8 @@
 
         public function query($sql){
         	$result = mysqli_query($this->db_con,$sql) or die(mysqli_error());
-        	if(mysqli_num_rows($result)!=""){
-        		return mysqli_fetch_array($result);
+        	if(mysqli_num_rows($result)!=0){
+        		return $result;
         	}
 
         	return NULL;

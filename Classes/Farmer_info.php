@@ -3,7 +3,7 @@
 	Class Farmer_info extends database{
 		
 		private $farmer_id ='';
-		private $table_name = "tbl_farmer";
+		private $table_name = "tbl_farmers";
 		public function __construct()
         {
              parent::__construct();
@@ -15,9 +15,13 @@
 
         public function getFarmerInfo(){
         	
-        	$sql =" SELECT * FROM ".$this->table_name." WHERE id='".$this->farmer_id."'";
+        	$sql =" SELECT * FROM ".$this->table_name." WHERE fm_id='".$this->farmer_id."'";
         	$result =  mysqli_query($this->db_con,$sql);
-        	return mysqli_fetch_array($result);
+            if($result){
+                return mysqli_fetch_array($result);
+            }
+        	
+            return false;
         }
 
 

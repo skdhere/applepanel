@@ -1,6 +1,6 @@
 <?php 
 
-	include('config/autoload.php');
+	include('./config/autoload.php');
 	
     // echo $fm_caid        = $_SESSION['ca_id'];
     
@@ -10,6 +10,9 @@
 	$title			= 'Add Farmer';
 	$home_url 	  	= "home.php";
 	$filename		= 'view_farmers.php';
+
+
+    
 ?>
 
 <!DOCTYPE html>
@@ -23,6 +26,7 @@
     </head>
     <body class="<?php echo THEME_NAME; ?>" data-theme="<?php echo THEME_NAME; ?>">
         <?php
+        loader();
 		/*include Bootstrap model pop up for error display*/
 		modelPopUp();
 		/*include Bootstrap model pop up for error display*/
@@ -68,7 +72,7 @@
                                             }
                                             else
                                             {
-                                                $res_get_list_of_fpos = getRecord('tbl_organization');
+                                                $res_get_list_of_fpos = getRecord('tbl_organization',[]);
                                             }
                                             if($res_get_list_of_fpos)
                                             {
@@ -115,7 +119,7 @@
                                     	State <span style="color:#F00">*</span>
                                     </label>
                                     <div class="controls">
-                                        <select id="fm_state" name="fm_state" class="select2-me input-xlarge" >
+                                        <select id="fm_state" onchange="getDistrict(this.value)" name="fm_state" class="select2-me input-xlarge" >
                                             <option value="">Select State</option>
                                             <?php
                                             $states = $location->get_states();
@@ -132,7 +136,7 @@
                                         District <span style="color:#F00">*</span>
                                     </label>
                                     <div class="controls">
-                                        <select id="fm_district" name="fm_district" class="select2-me input-xlarge" >
+                                        <select id="fm_district" onchange="getTaluka(this.value)" name="fm_district" class="select2-me input-xlarge" >
                                             <option value="">Select District</option>
                                             
                                         </select>
@@ -144,7 +148,7 @@
                                         Taluka <span style="color:#F00">*</span>
                                     </label>
                                     <div class="controls">
-                                        <select id="fm_taluka" name="fm_taluka" class="select2-me input-xlarge" >
+                                        <select id="fm_taluka" onchange="getVillage(this.value)"  name="fm_taluka" class="select2-me input-xlarge" >
                                             <option value="">Select Taluka</option>
                                             
                                         </select>
@@ -161,6 +165,30 @@
                                         </select>
                                     </div>
                                 </div>  <!-- Father's / fm_state -->
+
+                                <div class="control-group">
+                                    <label for="text" class="control-label" style="margin-top:10px">
+                                        Educatational Status <span style="color:#F00">*</span>
+                                    </label>
+                                    <div class="controls">
+                                        <input type="radio" name="educational_status"  value="yes" /> Educated 
+
+                                        <input type="radio" name="educational_status"  value="no" /> Non-Educated 
+                                    </div>
+                                </div>  <!-- Father's / fm_state -->
+
+
+                                <div class="control-group">
+                                    <label for="text" class="control-label" style="margin-top:10px">
+                                       Gender <span style="color:#F00">*</span>
+                                    </label>
+                                    <div class="controls">
+                                        <input type="radio" name="gender"  value="Male" /> Male 
+
+                                        <input type="radio" name="gender"  value="Female" /> Female
+                                    </div>
+                                </div>  <!-- Father's / fm_state -->
+
                                 
                                 <div class="control-group">
                                 	<label for="tasktitel" class="control-label">
@@ -209,7 +237,7 @@
                                     	Email. <span style="color:#F00">*</span><br>
                                     </label>
                                     <div class="controls">
-                                    	<input type="email" placeholder="Email" name="fm_email" id="fm_email" data-rule-number="true" data-rule-required="true"   class="input-xlarge v_number">
+                                    	<input type="email" placeholder="Email" name="fm_email" id="fm_email" class="input-xlarge">
                                     	<label id="comp_1" style="color:#FF0000;width:200px;margin-left:100px;"></label>
                                     </div>
                                 </div> <!-- Aadhar Number -->
@@ -219,40 +247,29 @@
                                          How long you have been residing in this area <span style="color:#F00">*</span>
                                     </label>
                                     <div class="controls">
-                                        <input type="text" placeholder="residing in this area" name="txt_farm_experience" id="txt_farm_experience" class="v_number input-xlarge" data-rule-number="true" data-rule-required="true" data-rule-maxlength="2">
+                                        <input type="text" placeholder="residing in this area" name="fm_residing_area" id="fm_residing_area" class="v_number input-xlarge" data-rule-number="true" data-rule-required="true" data-rule-maxlength="2"> In years
                                     </div>
                                 </div>  <!-- Experience In Farming -->
 
                                 <div class="control-group">
                                 	<label for="tasktitel" class="control-label">
-                                    	Experience In Farming <span style="color:#F00">*</span>
+                                    	Personal Experience<span style="color:#F00">*</span>
                                     </label>
                                     <div class="controls">
-                                    	<input type="text" placeholder="Experience In Farming" name="txt_farm_experience" id="txt_farm_experience" class="v_number input-xlarge" data-rule-number="true" data-rule-required="true" data-rule-maxlength="2">
+                                    	<input type="text" placeholder="Personal Experience" name="personal_experience" id="personal_experience" class="v_number input-xlarge" data-rule-number="true" data-rule-required="true" > In years
                                     </div>
                                 </div>	<!-- Experience In Farming -->
                                 
                                 <div class="control-group">
-                                    <label for="tasktitel" class="control-label">Do you have any other occupation? <span style="color:#F00">*</span></label>
+                                    <label for="tasktitel" class="control-label">
+                                        No. of family members<span style="color:#F00">*</span>
+                                    </label>
                                     <div class="controls">
-                                        <select id="f1_any_other_occupation" name="f1_any_other_occupation" class="select2-me input-xlarge" onChange="getDisplayDiv(this.value, 'div_any_other_occupation_display')">
-                                            <option value="" disabled selected>Select here</option>
-                                            <option value="yes">Yes</option>
-                                            <option value="no">No</option>
-                                        </select>
+                                        <input type="text" placeholder="No. of family members" name="no_of_family_members" id="no_of_family_members" class="v_number input-xlarge" data-rule-number="true" data-rule-required="true" min="0" max="50" >
                                     </div>
-                                </div>  <!-- Do you have any other occupation? -->
+                                </div>  <!-- Experience In Farming -->
                                 
-                                <div id="div_any_other_occupation_display" style="display:none;">
-                                    
-                                    <div class="control-group">
-                                        <label for="tasktitel" class="control-label">mention the amount earned annually <span style="color:#F00">*</span></label>
-                                        <div class="controls">
-                                            <input type="text" placeholder="mention the amount earned annually" onKeyPress="return numsonly(event);" name="f1_occupation_amt" id="f1_occupation_amt" class="v_number input-xlarge" data-rule-required="true" data-rule-maxlength="12">
-                                        </div>
-                                    </div>  <!-- mention the amount earned annually -->
-
-                                </div>
+                                
                                 
                                 <div class="control-group">
                                 	<label for="tasktitel" class="control-label">
@@ -278,9 +295,10 @@
                 </div>
 	        </div>
         </div>
+        <?php include('view/scripts.php');?>
     	<script language="javascript">
     		
-			var baseurll 			= '<?php echo $BaseFolder; ?>';
+			var baseurll 			= '<?php echo BASE_FOLDER;?>';
 			//var farmer_reg_g_total	= 0;
 			var residence_points	= 0;
 			var personal_details_points	= 0;
@@ -440,19 +458,7 @@
 				//$('#hid_frm_reg_points').html(farmReg_pt);
 			}
 		
-			// $('#txt_dob').on('changeDate', function(e){
-			// 	var date1 = new Date($(this).val());
-			// 	var date2 = new Date();
-			// 	var timeDiff = Math.abs(date2.getTime() - date1.getTime());
-			// 	var diffyears = (Math.ceil(timeDiff / (365 * 1000 * 3600 * 24))) - 1; 
-				
-			// 	$('#txt_age').val(diffyears);
-				
-			// 	if(date1 != '')
-			// 	{
-			// 		calTotal();	
-			// 	}
-			// });
+			
 
             $('#txt_dob').bind('blur changeDate', function(e){
                 var date1 = new Date($(this).val());
@@ -482,119 +488,9 @@
 				calTotal();
 			});
 			
-			function getDist(stateParameter, stateVal, distId, talId, villageId, distDivId, talDivId, VillageDivId)
-			{
-				var sendInfo	= {"stateVal":stateVal, "stateParameter":stateParameter, "distId":distId, "talId":talId, "villageId":villageId, "distDivId":distDivId, "talDivId":talDivId, "VillageDivId":VillageDivId, "load_dist":1};
-				var dist_load 	= JSON.stringify(sendInfo);
-				
-				$.ajax({
-					url: "load_farmer.php?",
-					type: "POST",
-					data: dist_load,
-					contentType: "application/json; charset=utf-8",						
-					success: function(response) 
-					{
-						data = JSON.parse(response);
-						
-						if(data.Success == "Success") 
-						{
-							$('#'+distDivId).html(data.resp);
-							$('#'+distId).select2();
-						} 
-						else if(data.Success == "fail") 
-						{
-							//alert(data.resp);
-							console.log(data.resp);
-						}
-					},
-					error: function (request, status, error) 
-					{
-						$("#model_body").html('<span style="style="color:#F00;">'+request.responseText+'</span>');							
-						$('#error_model').modal('toggle');						
-					},
-					complete: function()
-					{
-						//loading_hide();
-						//alert("complete");
-					}
-				});	
-			}
 			
-			function getTal(distParameter, distVal, talId, villageId, talDivId, VillageDivId)
-			{
-				var sendInfo	= {"distVal":distVal, "distParameter":distParameter, "talId":talId, "villageId":villageId, "talDivId":talDivId, "VillageDivId":VillageDivId, "load_tal":1};
-				var tal_load 	= JSON.stringify(sendInfo);
-				
-				$.ajax({
-					url: "load_farmer.php?",
-					type: "POST",
-					data: tal_load,
-					contentType: "application/json; charset=utf-8",						
-					success: function(response) 
-					{
-						data = JSON.parse(response);
-						
-						if(data.Success == "Success") 
-						{
-							$('#'+talDivId).html(data.resp);
-							$('#'+talId).select2();
-						} 
-						else if(data.Success == "fail") 
-						{
-							//alert(data.resp);
-							console.log(data.resp);
-						}
-					},
-					error: function (request, status, error) 
-					{
-						$("#model_body").html('<span style="style="color:#F00;">'+request.responseText+'</span>');							
-						$('#error_model').modal('toggle');						
-					},
-					complete: function()
-					{
-						//loading_hide();
-						//alert("complete");
-					}
-				});	
-			}
 			
-			function getVillage(talParameter, talVal, villageId, VillageDivId)
-			{
-				var sendInfo		= {"talVal":talVal, "talParameter":talParameter, "villageId":villageId, "VillageDivId":VillageDivId, "load_village":1};
-				var village_load 	= JSON.stringify(sendInfo);
-				
-				$.ajax({
-					url: "load_farmer.php?",
-					type: "POST",
-					data: village_load,
-					contentType: "application/json; charset=utf-8",						
-					success: function(response) 
-					{
-						data = JSON.parse(response);
-						
-						if(data.Success == "Success") 
-						{
-							$('#'+VillageDivId).html(data.resp);
-							$('#'+villageId).select2();
-						} 
-						else if(data.Success == "fail") 
-						{
-							//alert(data.resp);
-							console.log(data.resp);
-						}
-					},
-					error: function (request, status, error) 
-					{
-						$("#model_body").html('<span style="style="color:#F00;">'+request.responseText+'</span>');							
-						$('#error_model').modal('toggle');						
-					},
-					complete: function()
-					{
-						//loading_hide();
-						//alert("complete");
-					}
-				});	
-			}
+			
 			
 			$('#btnsame').on('click', function(e){
 				e.preventDefault();
@@ -622,7 +518,7 @@
 					calTotal();
 					
 					$.ajax({
-						url: "load_farmer.php?",
+						url: "action/farmer.php?request=add",
 						type: "POST",
 						data: new FormData(this), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
 						contentType: false,       // The content type used when sending data to the server.
@@ -631,14 +527,14 @@
 						async:true,						
 							success: function(response) 
 							{   data = JSON.parse(response);
-								if(data.Success == "Success") 
+								if(data.Success == true) 
 								{  
-									location.href	= baseurll + "view_farmers.php?pag=farmers";
+									location.href	= "view_farmers.php?pag=farmers";
 								} 
 								else 
 								{   
 									alert(data.resp);
-									location.href	= baseurll + "error-404";
+									location.href	= "error-404";
 								}
 							},
 							error: function (request, status, error) 
@@ -762,57 +658,57 @@
 				if(!isNaN(comp2) && comp2 != '' && comp2 != 'undefined' && comp2.length === 10)
 				{
 					
-					var strURL="viewmobile.php?comp2="+comp2;
-					var req = getXMLHTTP();
-					if (req) {
+					// var strURL="viewmobile.php?comp2="+comp2;
+					// var req = getXMLHTTP();
+					// if (req) {
 		
 						
 		
-						req.onreadystatechange = function() {
+					// 	req.onreadystatechange = function() {
 		
-							if (req.readyState == 4) {
+					// 		if (req.readyState == 4) {
 		
-								// only if "OK"
+					// 			// only if "OK"
 		
-								if (req.status == 200) {						
+					// 			if (req.status == 200) {						
 		
-									document.getElementById('comp_2').innerHTML=req.responseText;
+					// 				document.getElementById('comp_2').innerHTML=req.responseText;
 		
-										var g=document.getElementById('fm_mobileno').value;
+					// 					var g=document.getElementById('fm_mobileno').value;
 		
-										if(g==2)
+					// 					if(g==2)
 		
-										{
+					// 					{
 		
-											<!--alert(" User Already registered with this username");-->
+					// 						<!--alert(" User Already registered with this username");-->
 		
-												document.getElementById('fm_mobileno').value="";
+					// 							document.getElementById('fm_mobileno').value="";
 		
-										}
+					// 					}
 		
-										else
+					// 					else
 		
-										{
+					// 					{
 		
 											
 		
-										}						
+					// 					}						
 		
-								} else {
+					// 			} else {
 		
-									alert("There was a problem while using XMLHTTP:\n" + req.statusText);
+					// 				alert("There was a problem while using XMLHTTP:\n" + req.statusText);
 		
-								}
+					// 			}
 		
-							}				
+					// 		}				
 		
-						}			
+					// 	}			
 		
-						req.open("GET", strURL, true);
+					// 	req.open("GET", strURL, true);
 		
-						req.send(null);
+					// 	req.send(null);
 		
-					}
+					// }
 				}
 			}		
 				
