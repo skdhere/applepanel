@@ -1,7 +1,6 @@
 <?php
-	include('access1.php');
-	include('include/connection.php');
-	include('include/query-helper.php');
+	include('config/autoload.php');
+
 
 	$feature_name = 'FPO Details';
 	$home_name    = "Home";
@@ -93,7 +92,7 @@
 	    </style>
 
 	</head>
-	<body class="<?php echo $theme_name; ?>" data-theme="<?php echo $theme_name; ?>">
+	<body class="<?php echo THEME_NAME; ?>" data-theme="<?php echo THEME_NAME; ?>">
 		<?php
 		/*START : Loader*/
 		loader();
