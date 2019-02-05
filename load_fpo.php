@@ -1,10 +1,9 @@
 <?php
-	include('access1.php'); 
-	include('include/connection.php');
-	include('include/query-helper.php');
-	include('include/pagination-helper.php');
+	include('config/autoload.php');
+
 	
-	$fm_caid   	= $_SESSION['ca_id'];
+	$fm_caid   	= $_SESSION['login_id'];
+	// $fm_caid   	= $_SESSION['ca_id'];
 	$fm_caname  = $_SESSION['sqyard_user'];
 
 	if((isset($obj->load_fpo)) == "1" && isset($obj->load_fpo))
@@ -16,8 +15,8 @@
 		$page 			= mysqli_real_escape_string($db_con,$obj->page);	
 		$per_page		= mysqli_real_escape_string($db_con,$obj->row_limit);
 		$search_text	= mysqli_real_escape_string($db_con,$obj->search_text);	
-		$hid_user_type	= mysqli_real_escape_string($db_con,$obj->hid_user_type); 
-		$hid_ca_id 		= mysqli_real_escape_string($db_con,$obj->hid_ca_id);
+		// $hid_user_type	= mysqli_real_escape_string($db_con,$obj->hid_user_type); 
+		// $hid_ca_id 		= mysqli_real_escape_string($db_con,$obj->hid_ca_id);
 		 
 		if($page != "" && $per_page != "")	
 		{

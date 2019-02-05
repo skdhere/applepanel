@@ -1,8 +1,5 @@
 <?php
-	include('access1.php');
-	include('include/connection.php');
-	include('include/query-helper.php');
-	include('include/pagination-helper.php');
+	include('config/autoload.php');
 
 	$feature_name 	= 'FPO';
 	$home_name    	= "Home";
@@ -19,17 +16,7 @@
         <?php	
 	}
 	
-	$ca_id	= $_SESSION['ca_id'];
-    if($_SESSION['userType']=="Admin")
-    {
-        $sql   = "select * from tbl_farmers order by id desc";
-    }
-    else
-    {
-       $sql	= "select * from tbl_farmers where fm_caid='".$ca_id."' order by id desc";
-    }
-	$res	= mysqli_query($db_con,$sql) or die(mysqli_error($db_con));
-	$r		= 1;	
+	
 ?>	
 <!doctype html>
 <html>
@@ -89,7 +76,7 @@
 
     </head>
     
-    <body class="<?php echo $theme_name; ?>" data-theme="<?php echo $theme_name; ?>">
+    <body class="<?php echo THEME_NAME; ?>" data-theme="<?php echo THEME_NAME; ?>">
         <?php
 		/*include Bootstrap model pop up for error display*/
 		modelPopUp();
@@ -122,8 +109,8 @@
                                         </a>
                                     </div>
                                     <div style="padding:10px 15px 10px 15px !important">
-                                    	<input type="hidden" name="hid_user_type" id="hid_user_type" value="<?php echo $_SESSION['userType'] ?>">
-                                    	<input type="hidden" name="hid_ca_id" id="hid_ca_id" value="<?php echo $ca_id; ?>">
+                                    	
+                                    	
                                         <input type="hidden" name="hid_page" id="hid_page" value="1">
                                         <input type="hidden" name="cat_parent" id="cat_parent" value="parent">
                                         <select name="rowlimit" id="rowlimit" onChange="loadData();"  class = "select2-me">
