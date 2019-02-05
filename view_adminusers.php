@@ -1,8 +1,6 @@
 <?php
-	include('access1.php');
-	include('include/connection.php');
+	include('config/autoload.php');
 	
-
 	$feature_name 	= 'Users';
 	$home_name    	= "Home";
 	$title			= 'View Users';
@@ -18,9 +16,9 @@
         <?php	
 	}
 	
-	if($_SESSION['userType']=="Admin")
+	if($_SESSION['userType']=="1")
     {
-        $sql = "SELECT * FROM `tbl_change_agents` ";
+        $sql = "SELECT * FROM `tbl_mgnt_users` ";
         $res = mysqli_query($db_con,$sql) or die(mysqli_error($db_con));
         $r   = 1;
         ?>
@@ -37,7 +35,7 @@
        
     </head>
     
-    <body class="<?php echo $theme_name; ?>" data-theme="<?php echo $theme_name; ?>">
+    <body class="<?php echo THEME_NAME; ?>" data-theme="<?php echo THEME_NAME; ?>">
         <?php
         /*include Bootstrap model pop up for error display*/
         modelPopUp();
@@ -73,7 +71,7 @@
                                                     <th>Sr no.</th>
                                                     <th>ID</th>
                                                     <th>Name</th>
-                                                    <th>Username</th>
+                                                    
                                                     <th>Password</th>
                                                     <th>Contact No</th>
                                                     <th>Type</th>
@@ -94,19 +92,19 @@
                                                         
                                                         <tr>
                                                             <td><?php echo $r; ?></td>  
-                                                            <td><?php echo $row_doc['id']; ?></td>
-                                                            <td><?php echo $row_doc['fname']; ?></td>
-                                                            <td><?php echo $row_doc['emailId']; ?></td>  
-                                                            <td><?php echo $row_doc['password']; ?></td> 
-                                                            <td><?php echo $row_doc['contactno']; ?></td><td><?php echo $row_doc['userType']; ?></td>   <!-- document type -->
-                                                       <td><?php if($row_doc['reg_status']=='1'){
+                                                            <td><?php echo $row_doc['mu_id']; ?></td>
+                                                            <td><?php echo $row_doc['mu_name']; ?></td>
+                                                            <td><?php echo $row_doc['mu_email']; ?></td>  
+                                                           
+                                                            <td><?php echo $row_doc['mu_mobile']; ?></td><td><?php echo $row_doc['mu_mr_role_id']; ?></td>   <!-- document type -->
+                                                       <td><?php if($row_doc['status']=='1'){
                                                             echo "Active";
                                                        }else{
                                                             echo "Inactive";
                                                        }  ?></td>   <!-- Status -->
-                                                       <td><?php echo $row_doc['register_dt']; ?></td>    <!-- Created Date -->
-                                                      <td><a href="edit_adminusers.php?pag=adminusers&admin_id=<?php echo $row_doc['id']; ?>" class="btn btn-primary">Edit</a></td>
-                                                       <td><div align="center"><input type="checkbox" class="case" name="adminusers[]" value="<?php echo $row_doc['id']?>" /></div></td>
+                                                       <td><?php echo $row_doc['created_date']; ?></td>    <!-- Created Date -->
+                                                      <td><a href="edit_adminusers.php?pag=adminusers&admin_id=<?php echo $row_doc['mu_id']; ?>" class="btn btn-primary">Edit</a></td>
+                                                       <td><div align="center"><input type="checkbox" class="case" name="adminusers[]" value="<?php echo $row_doc['mu_id']?>" /></div></td>
                                                    </tr>
                                                    <?php
                                                    $r++;

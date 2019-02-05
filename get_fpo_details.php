@@ -23,7 +23,7 @@
 	$fpo_mobile_num = '';
 
     // Query For getting the Farmer Info
-	$res_get_fpo_info = lookup_value('tbl_change_agents',array(),array("id"=>$fpo_id),array(),array(),array());
+	$res_get_fpo_info = lookup_value('tbl_mgnt_users',array(),array("mu_id"=>$fpo_id),array(),array(),array());
 	if($res_get_fpo_info)
 	{
 		$num_get_fpo_info	= mysqli_num_rows($res_get_fpo_info);
@@ -31,9 +31,9 @@
 		{
 			$row_get_fpo_info	= mysqli_fetch_array($res_get_fpo_info);
 
-			$fpo_name       = $row_get_fpo_info['fname'];
-			$fpo_email      = $row_get_fpo_info['emailId'];
-			$fpo_mobile_num = $row_get_fpo_info['contactno'];			
+			$fpo_name       = $row_get_fpo_info['mu_name'];
+			$fpo_email      = $row_get_fpo_info['mu_email'];
+			$fpo_mobile_num = $row_get_fpo_info['mu_mobile'];			
 		}
 	}
 ?>

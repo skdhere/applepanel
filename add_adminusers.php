@@ -1,7 +1,5 @@
 <?php
-	include('access1.php');
-	include('include/connection.php');
-    include('include/query-helper.php');
+	include('config/autoload.php');
     
 	$feature_name 	= 'Users';
 	$home_name    	= "Home";
@@ -18,9 +16,9 @@
         <?php	
 	}
 	
-	if($_SESSION['userType']=="Admin")
+	if($_SESSION['userType']=="1")
     {
-        $sql = "SELECT * FROM `tbl_change_agents` ";
+        $sql = "SELECT * FROM `tbl_mgnt_users` ";
         $res = mysqli_query($db_con,$sql) or die(mysqli_error($db_con));
         $r   = 1;
         ?>
@@ -37,7 +35,7 @@
        
     </head>
     
-    <body class="<?php echo $theme_name; ?>" data-theme="<?php echo $theme_name; ?>">
+    <body class="<?php echo THEME_NAME; ?>" data-theme="<?php echo THEME_NAME; ?>">
         <?php
         /*include Bootstrap model pop up for error display*/
         modelPopUp();
@@ -112,11 +110,11 @@
                                     <div class="controls">
                                         <select id="txt_userType" name="txt_userType" class="select2-me input-xlarge" >
                                             <option value="" disabled selected>Select here</option>
-                                            <option value="Admin">Admin</option>
-                                            <option value="FPO">FPO</option>
-                                            <option value="changeagent">Change Agent</option>
+                                            <option value="1">Admin</option>
+                                            <option value="3">FPO</option>
+                                            <option value="2">Change Agent</option>
                                             <!-- <option value="Reviewer">Reviewer</option> -->
-                                            <option value="Data Entry">Data Entry</option>
+                                            <option value="4">Data Entry</option>
                                         </select>
                                     </div>
                                 </div>  
@@ -174,7 +172,7 @@
             <!-- Page Content / End -->
         <script type="text/javascript">
 
-            var baseurll            = '<?php echo $BaseFolder; ?>';
+            var baseurll            = '<?php echo BASE_FOLDER; ?>';
 
             $('#add_adminusers').on('submit', function(e) 
             {

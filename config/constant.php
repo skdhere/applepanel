@@ -1,6 +1,6 @@
 <?php
 
-define('THEME_NAME','theme-lightred');
+define('THEME_NAME','theme-green');
 
 if ($_SERVER['HTTP_HOST'] == "localhost" || preg_match("/^192\.168\.0.\d+$/",$_SERVER['HTTP_HOST'])) 
 {
@@ -11,7 +11,7 @@ if ($_SERVER['HTTP_HOST'] == "localhost" || preg_match("/^192\.168\.0.\d+$/",$_S
 
 	if ($_SERVER['HTTP_HOST'] == "localhost")
 	{
-		define('BASE_FOLDER','applepanel');
+		define('BASE_FOLDER','http://localhost/applepanel');
 	}
 	else
 	{

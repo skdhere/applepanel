@@ -18,10 +18,10 @@
 	
 	$ca_id	= $_SESSION['login_id'];
 
-	$sql_org = "select * from tbl_change_agents where id='".$ca_id."'";
+	$sql_org = "select * from tbl_mgnt_users where mu_id='".$ca_id."'";
 	$res_org = mysqli_query($db_con,$sql_org) or die(mysqli_error($db_con));
 	$row_org = mysqli_fetch_array($res_org);
-	$org_id  = $row_org['org_id'];
+	$org_id  = $row_org['mu_org_id'];
 
 	//echo $_SESSION['userType'];
 	

@@ -56,153 +56,14 @@
                 /* this function used to add navigation menu to the page*/
                 ?>
                 <div class="container-fluid">
-                    <div class="span12">
-                        <div class="box box-bordered box-color" >
-                            <div class="box-title">
-                                <h3><i class="icon-dashboard"></i>Basic Counts</h3>
-                            </div>
-                            <div style="clear:both">&nbsp;</div>
-                            <div class="container">
-                                
-                                <div class="row">
-                                    
-                                    <div class="span4" >
-                                        <div class="panel panel-cadetblue">
-                                            <div class="panel-heading">
-                                                <div class="row" style="padding-left: 30px;">
-                                                    <div class="col-xs-3">
-                                                        <!--<i class="fa fa-users fa-5x"></i>-->
-                                                    </div>
-                                                    <div class="col-xs-9 text-right">
-                                                        <div class="huge"></div><br>
-                                                        <div><h2>Registration Count</h2></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>  <!-- Registration Count -->
-                                    
-                                    <div class="span4" >
-                                        <div class="panel panel-green">
-                                            <div class="panel-heading">
-                                                <div class="row" style="padding-left: 30px;">
-                                                    <div class="col-xs-3">
-                                                        <!--<i class="fa fa-users fa-5x"></i>-->
-                                                    </div>
-                                                    <div class="col-xs-9 text-right">
-                                                        <div class="huge"><br>
-                                                        <div><h2>Complete Farmers</h2></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>  <!-- Complete Farmers -->
-
-                                    <div class="span4" >
-                                        <div class="panel panel-red">
-                                            <div class="panel-heading">
-                                                <div class="row" style="padding-left: 30px;">
-                                                    <div class="col-xs-3">
-                                                        <!--<i class="fa fa-users fa-5x"></i>-->
-                                                    </div>
-                                                    <div class="col-xs-9 text-right">
-                                                        <div class="huge"></div><br>
-                                                        <div><h2>Uploading in process</h2></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>  <!-- Incomplete Farmers -->
-
-                                </div>  <!-- User Section --> 
-                                
-                                <div class="row">
-                                    <div class="span6" >
-                                        <div class="panel panel-cadetblue">
-                                            <div class="panel-heading">
-                                                <div class="row" style="padding-left: 30px;">
-                                                    <div class="col-xs-3">
-                                                        <!--<i class="fa fa-users fa-5x"></i>-->
-                                                    </div>
-                                                    <div class="col-xs-9 text-right">
-                                                        <div class="huge"></div><br>
-                                                        <div><h2>Total Amount Of loan</h2></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                           
-                                        </div>
-                                    </div>  <!-- Total Amount Of loan -->
-                                    
-                                    <div class="span6" >
-                                        <div class="panel panel-cadetblue">
-                                            <div class="panel-heading">
-                                                <div class="row" style="padding-left: 30px;">
-                                                    <div class="col-xs-3">
-                                                        <!--<i class="fa fa-users fa-5x"></i>-->
-                                                    </div>
-                                                    <div class="col-xs-9 text-right">
-                                                        <div class="huge"></div><br>
-                                                        <div><h2>Farmer Count Who wants Loan</h2></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                           
-                                        </div>
-                                    </div>  <!-- Farmer Count Who wants Loan -->
-                                </div>  <!-- Loan Section -->
-
-                                <div class="row">
-                                    
-                                    <div class="span6" >
-                                        <div class="panel panel-cadetblue">
-                                            <div class="panel-heading">
-                                                <div class="row" style="padding-left: 30px;">
-                                                    <div class="col-xs-3">
-                                                        <!--<i class="fa fa-users fa-5x"></i>-->
-                                                    </div>
-                                                    <div class="col-xs-9 text-right">
-                                                        <div class="huge"></div><br>
-                                                        <div><h2>Smartphone Count</h2></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>  <!-- Smart Phone Count -->
-                                    
-                                    <div class="span6" >
-                                        <div class="panel panel-cadetblue">
-                                            <div class="panel-heading">
-                                                <div class="row" style="padding-left: 30px;">
-                                                    <div class="col-xs-3">
-                                                        <!--<i class="fa fa-users fa-5x"></i>-->
-                                                    </div>
-                                                    <div class="col-xs-9 text-right">
-                                                        <div class="huge"></div><br>
-                                                        <div><h2>Featuredphone Count</h2></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>  <!-- Featured Phone Count -->
-
-                                </div>  <!-- Phone Type Section -->
-                                
-                            </div>
-                        </div>
-                    </div>
+                   
                 </div>  <!-- Basic Counts -->
                 
                 <div class="container-fluid">
                     <div class="span12">
                         <div class="box box-bordered box-color" >
                             <div class="box-title">
-                                <h3><i class="icon-dashboard"></i>Total Spend on Inputs (In Rs.)</h3>
+                                <h3><i class="icon-dashboard"></i>Summary</h3>
                             </div>
                             <div style="clear:both">&nbsp;</div>
                             <div class="container">
@@ -214,23 +75,23 @@
                                             <div class="panel-heading">
                                                 <div class="row" style="padding-left: 30px;">
                                                     <div class="col-xs-3">
-                                                        <!--<i class="fa fa-users fa-5x"></i>-->
+                                                        <!-- <i class="fa fa-users"></i> -->
                                                     </div>
                                                     <div class="col-xs-9 text-right">
-                                                        <div class="huge"></div><br>
-                                                        <div><h2>Total Spend on Seeds</h2></div>
+                                                        <div class="huge">10</div><br>
+                                                        <div><h2>Total Farmers</h2></div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>  <!-- Total Spend on Seeds -->
                                     
-                                    <div class="span4" >
+                                   <!--  <div class="span4" >
                                         <div class="panel panel-green">
                                             <div class="panel-heading">
                                                 <div class="row" style="padding-left: 30px;">
                                                     <div class="col-xs-3">
-                                                        <!--<i class="fa fa-users fa-5x"></i>-->
+                                                        <i class="fa fa-users fa-5x"></i>
                                                     </div>
                                                     <div class="col-xs-9 text-right">
                                                         <div class="huge"></div><br>
@@ -239,14 +100,14 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>  <!-- Total Spend on Fertilisers -->
+                                    </div>  --> <!-- Total Spend on Fertilisers -->
 
-                                    <div class="span4" >
+                                    <!-- <div class="span4" >
                                         <div class="panel panel-red">
                                             <div class="panel-heading">
                                                 <div class="row" style="padding-left: 30px;">
                                                     <div class="col-xs-3">
-                                                        <!--<i class="fa fa-users fa-5x"></i>-->
+                                                        <i class="fa fa-users fa-5x">10</i>
                                                     </div>
                                                     <div class="col-xs-9 text-right">
                                                         <div class="huge"></div><br>
@@ -255,7 +116,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>  <!-- Total Spend on Pesticide -->
+                                    </div> -->  <!-- Total Spend on Pesticide -->
 
                                 </div>  <!-- Total Spend on Inputs: Seeds, Pesticide and Fertilisers --> 
                                 
@@ -264,71 +125,7 @@
                     </div>
                 </div>  <!-- Total Spend on Inputs -->
 
-                <div class="container-fluid">
-                    <div class="span12">
-                        <div class="box box-bordered box-color" >
-                            <div class="box-title">
-                                <h3><i class="icon-dashboard"></i>Total Quantity (In Kg.)</h3>
-                            </div>
-                            <div style="clear:both">&nbsp;</div>
-                            <div class="container">
-                                
-                                <div class="row">
-                                    
-                                    <div class="span4" >
-                                        <div class="panel panel-cadetblue">
-                                            <div class="panel-heading">
-                                                <div class="row" style="padding-left: 30px;">
-                                                    <div class="col-xs-3">
-                                                        <!--<i class="fa fa-users fa-5x"></i>-->
-                                                    </div>
-                                                    <div class="col-xs-9 text-right">
-                                                        <div class="huge"></div><br>
-                                                        <div><h2>Total Quantity of Seeds</h2></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>  <!-- Total Quantity of Seeds -->
-                                    
-                                    <div class="span4" >
-                                        <div class="panel panel-green">
-                                            <div class="panel-heading">
-                                                <div class="row" style="padding-left: 30px;">
-                                                    <div class="col-xs-3">
-                                                        <!--<i class="fa fa-users fa-5x"></i>-->
-                                                    </div>
-                                                    <div class="col-xs-9 text-right">
-                                                        <div class="huge"></div><br>
-                                                        <div><h2>Total Quantity of Fertilisers</h2></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>  <!-- Total Quantity of Fertilisers -->
-
-                                    <div class="span4" >
-                                        <div class="panel panel-red">
-                                            <div class="panel-heading">
-                                                <div class="row" style="padding-left: 30px;">
-                                                    <div class="col-xs-3">
-                                                        <!--<i class="fa fa-users fa-5x"></i>-->
-                                                    </div>
-                                                    <div class="col-xs-9 text-right">
-                                                        <div class="huge"></div><br>
-                                                        <div><h2>Total Quantity of Pesticide</h2></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>  <!-- Total Quantity of Pesticide -->
-
-                                </div>  <!-- Total Quantity of: Seeds, Pesticide and Fertilisers --> 
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>  <!-- Total Spend on Inputs -->
+                
 
                 
             

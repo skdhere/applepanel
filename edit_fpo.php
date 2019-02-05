@@ -1,10 +1,9 @@
 <?php
-	include('access1.php');
-	include('include/connection.php');
+	include('config/autoload.php');
 
     $adminusers_id         = (isset($_REQUEST['fpo_id'])?$_REQUEST['fpo_id']:"");
 
-    $sql_users_info = "select * from tbl_change_agents where id = '$adminusers_id'";
+    $sql_users_info = "select * from tbl_mgnt_users where mu_id = '$adminusers_id'";
     $res_users_info = mysqli_query($db_con, $sql_users_info) or die(mysqli_error($db_con));
     $num_users_info    = mysqli_num_rows($res_users_info);
         if($num_users_info != 0)
@@ -41,7 +40,7 @@
        
     </head>
     
-    <body class="<?php echo $theme_name; ?>" data-theme="<?php echo $theme_name; ?>">
+    <body class="<?php echo THEME_NAME ?>" data-theme="<?php echo THEME_NAME ?>">
         <?php
         /*include Bootstrap model pop up for error display*/
         modelPopUp();
@@ -68,7 +67,7 @@
                                 
                                 <input type="hidden" id="hid_user_edit" name="hid_user_edit" value="1">
                                 <input type="hidden" id="hid_user_id" name="hid_user_id" value="<?php echo $adminusers_id; ?>">
-                                <input type="hidden" id="hid_org_id" name="hid_org_id" value="<?php echo $row_users_info['org_id']; ?>">
+                                <input type="hidden" id="hid_org_id" name="hid_org_id" value="<?php echo $row_users_info['mu_org_id']; ?>">
                                 <input type="hidden" name="txt_userType" id="txt_userType" value="FPO">
 
                                 <div class="control-group">
@@ -76,7 +75,7 @@
                                         Name <span style="color:#F00">*</span>
                                     </label>
                                     <div class="controls">
-                                        <input type="text" id="txt_name" name="txt_name" class="input-xlarge v_name" value="<?php if((isset($row_users_info['fname'])) && $row_users_info['fname'] != '') { echo $row_users_info['fname']; } ?>" data-rule-required="true" placeholder="Enter Your Name">
+                                        <input type="text" id="txt_name" name="txt_name" class="input-xlarge v_name" value="<?php if((isset($row_users_info['mu_name'])) && $row_users_info['mu_name'] != '') { echo $row_users_info['mu_name']; } ?>" data-rule-required="true" placeholder="Enter Your Name">
                                     </div>
                                 </div>  <!-- Name -->
                                 
@@ -85,7 +84,7 @@
                                         Email/Username <span style="color:#F00">*</span>
                                     </label>
                                     <div class="controls">
-                                        <input type="text" id="txt_email" name="txt_email" class="input-xlarge" data-rule-required="true" value="<?php if((isset($row_users_info['emailId'])) && $row_users_info['emailId'] != '') { echo $row_users_info['emailId']; } ?>" data-rule-email="true" placeholder="Enter Your Email Address">
+                                        <input type="text" id="txt_email" name="txt_email" class="input-xlarge" data-rule-required="true" value="<?php if((isset($row_users_info['mu_email'])) && $row_users_info['mu_email'] != '') { echo $row_users_info['mu_email']; } ?>" data-rule-email="true" placeholder="Enter Your Email Address">
                                     </div>
                                 </div>  <!-- Email / Username -->
                                 
@@ -95,7 +94,7 @@
                                     </label>
                                 
                                     <div class="controls">
-                                        <input type="text" placeholder="Mobile no" name="txt_mobileno" id="txt_mobileno" maxlength="10"  autocomplete="off" data-rule-required="true" data-rule-minlength="10"  data-rule-maxlength="10" value="<?php if((isset($row_users_info['contactno'])) && $row_users_info['contactno'] != '') { echo $row_users_info['contactno']; } ?>" class="input-xlarge v_number">
+                                        <input type="text" placeholder="Mobile no" name="txt_mobileno" id="txt_mobileno" maxlength="10"  autocomplete="off" data-rule-required="true" data-rule-minlength="10"  data-rule-maxlength="10" value="<?php if((isset($row_users_info['mu_mobile'])) && $row_users_info['mu_mobile'] != '') { echo $row_users_info['mu_mobile']; } ?>" class="input-xlarge v_number">
                                         <label id="comp_2" style="color:#FF0000;width:200px;margin-left:100px;"></label>    
                                     </div>
                                 </div> <!-- Mobile No -->
@@ -105,7 +104,7 @@
                                         Password <span style="color:#F00">*</span>
                                     </label>
                                     <div class="controls">
-                                        <input type="text" id="txt_password" name="txt_password" class="input-xlarge" value="<?php if((isset($row_users_info['password'])) && $row_users_info['password'] != '') { echo $row_users_info['password']; } ?>" data-rule-required="true" placeholder="Enter Your Password" >
+                                        <input type="text" id="txt_password" name="txt_password" class="input-xlarge" value="<?php if((isset($row_users_info['password'])) && $row_users_info['password'] != '') { echo $row_users_info['password']; } ?>"  placeholder="Enter Your Password" >
                                     </div>
                                 </div>  <!-- Password -->
                                 
@@ -125,7 +124,7 @@
             <!-- Page Content / End -->
         <script type="text/javascript">
 
-            var baseurll            = '<?php echo $BaseFolder; ?>';
+            var baseurll            = '<?php echo BASE_FOLDER; ?>';
 
             $('#edit_fpo_users').on('submit', function(e) 
             {
@@ -150,7 +149,7 @@
                                 else 
                                 {   
                                     alert(data.resp);
-                                    location.href   = baseurll + "/error-404";
+                                   
                                 }
                             },
                             error: function (request, status, error) 

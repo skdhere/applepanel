@@ -25,19 +25,19 @@
 			$start_offset 	+= $page * $per_page;
 			$start 			= $page * $per_page;
 				
-			$sql_load_data  = " select * from tbl_change_agents WHERE userType='FPO' ";
-			if($_SESSION['userType'] == 'FPO')
+			$sql_load_data  = " select * from tbl_mgnt_users WHERE mu_mr_role_id='3' ";
+			if($_SESSION['userType'] == '3')
 			{
-				$sql_load_data  .= " AND org_id = '".$_SESSION['org_id']."' ";
+				$sql_load_data  .= " AND mu_org_id = '".$_SESSION['mu_org_id']."' ";
 			}
 			if($search_text != "")
 			{
-				$sql_load_data .= " and (fname like '%".$search_text."%' or emailId like '%".$search_text."%' ";
-				$sql_load_data .= " or contactno like '%".$search_text."%') ";	
+				$sql_load_data .= " and (mu_name like '%".$search_text."%' or mu_email like '%".$search_text."%' ";
+				$sql_load_data .= " or mu_mobile like '%".$search_text."%') ";	
 			}
 			// quit($sql_load_data);
 			$data_count		= 	dataPagination($sql_load_data,$per_page,$start,$cur_page);		
-			$sql_load_data .=" ORDER BY id DESC LIMIT $start, $per_page ";
+			$sql_load_data .=" ORDER BY mu_id DESC LIMIT $start, $per_page ";
 			$result_load_data = mysqli_query($db_con,$sql_load_data) or die(mysqli_error($db_con));			
 			
 					
@@ -65,18 +65,18 @@
 					$fpo_data .= '<tr>';				
 						$fpo_data .= '<td class="center-text">'.++$start_offset.'</td>';				
 						$fpo_data .= '<td style="text-align:center;">';
-							$fpo_data .= '<a href="get_fpo_details.php?pag=fpo&fpo_id='.$row_load_data['id'].'" class="btn btn-primary">View Forms</a>';
+							$fpo_data .= '<a href="get_fpo_details.php?pag=fpo&fpo_id='.$row_load_data['mu_id'].'" class="btn btn-primary">View Forms</a>';
 						$fpo_data .= '</td>';	//<!-- Forms -->
-						$fpo_data .= '<td>'.$row_load_data['id'].'</td>';	//<!-- Farmer ID -->
+						$fpo_data .= '<td>'.$row_load_data['mu_id'].'</td>';	//<!-- Farmer ID -->
 						$fpo_data .= '<td>';
-							$fpo_data .= ucwords($row_load_data['fname']);
+							$fpo_data .= ucwords($row_load_data['mu_name']);
 						$fpo_data .= '</td>';	//<!-- Farmer Name -->
-						$fpo_data .= '<td>'.$row_load_data['contactno'].'</td>';	//<!-- Mobile Number -->
-						$fpo_data .= '<td>'.$row_load_data['emailId'].'</td>';	//<!-- Email -->
-						$fpo_data .= '<td>'.$row_load_data['reg_status'].'</td>';	//<!-- Status -->
-						$fpo_data .= '<td>'.$row_load_data['register_dt'].'</td>';	//<!-- Created Date -->
+						$fpo_data .= '<td>'.$row_load_data['mu_mobile'].'</td>';	//<!-- Mobile Number -->
+						$fpo_data .= '<td>'.$row_load_data['mu_email'].'</td>';	//<!-- Email -->
+						$fpo_data .= '<td>'.$row_load_data['status'].'</td>';	//<!-- Status -->
+						$fpo_data .= '<td>'.$row_load_data['created_date'].'</td>';	//<!-- Created Date -->
 						$fpo_data .= '<td style="text-align:center;">';
-							$fpo_data .= '<a href="edit_fpo.php?pag=fpo&fpo_id='.$row_load_data['id'].'" class="btn btn-primary">Edit</a>';
+							$fpo_data .= '<a href="edit_fpo.php?pag=fpo&fpo_id='.$row_load_data['mu_id'].'" class="btn btn-primary">Edit</a>';
 						$fpo_data .= '</td>';	//<!-- Edit Farmers -->
 					$fpo_data .= '</tr>';															
 				}	
@@ -1120,7 +1120,7 @@
 	if(isset($_POST['hid_user_reg']) && $_POST['hid_user_reg'] == '1')
 	{
 		$txt_email      = mysqli_real_escape_string($db_con,$_POST['txt_email']);
-		$sql_adhnocheck = " select * from tbl_change_agents where emailId = '".$txt_email."' ";
+		$sql_adhnocheck = " select * from tbl_mgnt_users where mu_email = '".$txt_email."' ";
 		$res_adhnocheck = mysqli_query($db_con,$sql_adhnocheck);
 		$tot_adhnocheck = mysqli_num_rows($res_adhnocheck);
 		
@@ -1146,16 +1146,16 @@
 				if($res_insert_org)
 				{
 					// Query for inserting the users into tbl_change_agents table
-					$data_ca['org_id']      = $res_insert_org;
-					$data_ca['userType']    = $txt_userType;
-					$data_ca['fname']       = $txt_name;
-					$data_ca['emailId']     = $txt_email;
-					$data_ca['contactno']   = $txt_mobileno;
-					$data_ca['password']    = $txt_password;
-					$data_ca['reg_status']  = '1';
-					$data_ca['register_dt'] = $datetime;
+					$data_ca['mu_org_id']      = $res_insert_org;
+					$data_ca['mu_mr_role_id']    = 3;
+					$data_ca['mu_name']       = $txt_name;
+					$data_ca['mu_email']     = $txt_email;
+					$data_ca['mu_mobile']   = $txt_mobileno;
+					$data_ca['mu_password']    = md5($txt_password);
+					$data_ca['status']  = '1';
+					$data_ca['created_date'] = $datetime;
 
-					$res_insert_ca = insert('tbl_change_agents', $data_ca);
+					$res_insert_ca = insert('tbl_mgnt_users', $data_ca);
 
 					if($res_insert_ca)
 					{
@@ -1188,7 +1188,7 @@
 		$hid_org_id     = mysqli_real_escape_string($db_con,$_POST['hid_org_id']);
 		
 		$txt_email      = mysqli_real_escape_string($db_con,$_POST['txt_email']);
-		$sql_adhnocheck = "Select * from tbl_change_agents where emailId = '".$txt_email."' AND id !='".$hid_user_id."'";
+		$sql_adhnocheck = "Select * from tbl_mgnt_users where mu_email = '".$txt_email."' AND mu_id !='".$hid_user_id."'";
 		
 		//quit('error',$sql_adhnocheck);
 		
@@ -1203,7 +1203,7 @@
 			$txt_mobileno = mysqli_real_escape_string($db_con,$_POST['txt_mobileno']);
 
 			
-			if($txt_name != '' && $txt_email != '' && $txt_mobileno != '' && $txt_password != '')
+			if($txt_name != '' && $txt_email != '' && $txt_mobileno != '')
 			{
 				// Query for inserting the users into tbl_organization table
 				$data_org['org_name']        = $txt_name;
@@ -1218,13 +1218,16 @@
 				if($res_update_org)
 				{
 					// Query for Updating the farmer into tbl_farmers table
-					$data_ca['userType']   = $txt_userType;
-					$data_ca['fname']      = $txt_name;
-					$data_ca['emailId']    = $txt_email;
-					$data_ca['contactno']  = $txt_mobileno;
-					$data_ca['password']   = $txt_password;
-					$data_ca['updated_dt'] = $datetime;
-					$res_update_ca = update('tbl_change_agents', $data_ca, array('id'=>$hid_user_id));
+					
+					$data_ca['mu_name']      = $txt_name;
+					$data_ca['mu_email']    = $txt_email;
+					$data_ca['mu_mobile']  = $txt_mobileno;
+					if($txt_password!=""){
+						$data_ca['password']   = md5($txt_password);
+					}
+					
+					$data_ca['modified_date'] = $datetime;
+					$res_update_ca = update('tbl_mgnt_users', $data_ca, array('mu_id'=>$hid_user_id));
 
 					if($res_update_ca)
 					{

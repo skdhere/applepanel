@@ -1,6 +1,5 @@
 <?php
-	include('access1.php');
-	include('include/connection.php');
+	include('config/autoload.php');
 	
 
 	$feature_name 	= 'FPO';
@@ -28,7 +27,7 @@
         ?>
     </head>
     
-    <body class="<?php echo $theme_name; ?>" data-theme="<?php echo $theme_name; ?>">
+    <body class="<?php echo THEME_NAME ?>" data-theme="<?php echo THEME_NAME; ?>">
         <?php
         /*include Bootstrap model pop up for error display*/
         modelPopUp();
@@ -110,7 +109,7 @@
             <!-- Page Content / End -->
         <script type="text/javascript">
 
-            var baseurll            = '<?php echo $BaseFolder; ?>';
+            var baseurll            = '<?php echo BASE_FOLDER; ?>';
 
             $('#add_fpo_users').on('submit', function(e) 
             {
@@ -135,7 +134,7 @@
                                 else 
                                 {   
                                     alert(data.resp);
-                                    location.href   = baseurll + "/error-404";
+                                    
                                 }
                             },
                             error: function (request, status, error) 

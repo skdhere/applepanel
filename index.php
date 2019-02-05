@@ -34,9 +34,7 @@ if(isset($_SESSION['sqyard_user']))
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/eakroko.js"></script>
 	<style type="text/css">
-	.theme-green {
-		background-image: linear-gradient(red, yellow, green) !important;
-	}
+	
 </style>
 </head>
 

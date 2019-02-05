@@ -454,7 +454,7 @@
         $sql .= $fields .' VALUES '. $values;
     
         $result     = mysqli_query($db_con,$sql) or die(mysqli_error($db_con));
-        
+       
         if($result)
         {
             return mysqli_insert_id($db_con);

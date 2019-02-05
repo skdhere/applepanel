@@ -71,7 +71,7 @@
 			$start_offset 	+= $page * $per_page;
 			$start 			= $page * $per_page;
 				
-			$sql_load_data  = " select tf.*, tca.fname AS change_agent_name, torg.org_name from tbl_farmers AS tf INNER JOIN tbl_change_agents AS tca ON tf.fm_caid = tca.id INNER JOIN tbl_organization AS torg ON tf.fm_org_id = torg.id WHERE 1=1 ";
+			$sql_load_data  = " select tf.*, tca.mu_name AS change_agent_name, torg.org_name from tbl_farmers AS tf INNER JOIN tbl_mgnt_users AS tca ON tf.fm_caid = tca.mu_id INNER JOIN tbl_organization AS torg ON tf.fm_org_id = torg.id WHERE 1=1 ";
 			if(strcmp($hid_user_type,1)!==0)
 			{
 				if(strcmp($hid_user_type,'FPO')===0)
@@ -104,7 +104,7 @@
 					$cat_data .= '<tr>';
 						$cat_data .= '<th>Sr no.</th>';
 						$cat_data .= '<th>Forms</th>';
-						$cat_data .= '<th>Docs Upload</th>';
+						// $cat_data .= '<th>Docs Upload</th>';
 						$cat_data .= '<th>Farmer ID</th>';
 						$cat_data .= '<th>Farmer Name</th>';
 						$cat_data .= '<th>Mobile No</th>';
@@ -134,9 +134,9 @@
 						$cat_data .= '<td style="text-align:center;">';
 							$cat_data .= '<a href="get_farmer_details.php?pag=farmers&fm_id='.$row_load_data['fm_id'].'" class="btn btn-primary">View Forms</a>';
 						$cat_data .= '</td>';	//<!-- Forms -->
-						$cat_data .= '<td style="text-align:center;">';
-							$cat_data .= '<a href="get_farmerdoc.php?pag=farmers&fm_id='.$row_load_data['fm_id'].'" class="btn btn-primary">View Uploads</a>';
-						$cat_data .= '</td>';	//<!-- Docs Upload -->
+						// $cat_data .= '<td style="text-align:center;">';
+						// 	$cat_data .= '<a href="get_farmerdoc.php?pag=farmers&fm_id='.$row_load_data['fm_id'].'" class="btn btn-primary">View Uploads</a>';
+						// $cat_data .= '</td>';	//<!-- Docs Upload -->
 						$cat_data .= '<td>'.$row_load_data['fm_id'].'</td>';	//<!-- Farmer ID -->
 						$cat_data .= '<td>';
 							$cat_data .= ucwords($row_load_data['fm_name']);

@@ -47,7 +47,7 @@
                             <h3>
                             	Add Farmer  
                             </h3>
-                            <button type="button" class="btn-info_1" style= "float:right" onClick="location.href='<?php echo BASE_FOLDER; ?>view_farmers.php';" >
+                            <button type="button" class="btn-info_1" style= "float:right" onClick="location.href='<?php echo BASE_FOLDER; ?>/view_farmers.php';" >
                                 <i class="icon-arrow-left"></i>&nbsp; Back
                             </button>
                         </div>

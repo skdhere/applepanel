@@ -38,12 +38,12 @@ elseif($_SESSION['userType']=="1")
 				</a>
 			</li>
 
-			<li <?php if(isset($_REQUEST['pag'])&&($_REQUEST['pag'])=='import'){?> class="active" <?php } ?>>
+			<!-- <li <?php if(isset($_REQUEST['pag'])&&($_REQUEST['pag'])=='import'){?> class="active" <?php } ?>>
 				<a href="upload_data.php?pag=import">
 					<i class="icon-th-large"></i>
 					<span>Upload</span>
 				</a>
-			</li>
+			</li> -->
 
 			<li <?php if(isset($_REQUEST['pag'])&&($_REQUEST['pag'])=='fpo'){?> class="active" <?php } ?>>
 				<a href="view_fpo.php?pag=fpo">
@@ -59,7 +59,7 @@ elseif($_SESSION['userType']=="1")
 				</a>
 			</li>
 
-			<li <?php if(isset($_REQUEST['pag'])){?> class="active" <?php } ?> id="li_report" > <!-- onClick="getOpen(this.id);" -->
+			<li <?php if(isset($_REQUEST['pag']) &&($_REQUEST['pag'])=='report'){?> class="active" <?php } ?> id="li_report" > <!-- onClick="getOpen(this.id);" -->
 				<a href="#">
 					<i class="icon-th-large"></i>
 					<span>Reports</span>
